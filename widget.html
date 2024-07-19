@@ -12,14 +12,23 @@
 
     <script src="https://js.jotform.com/JotFormCustomWidget.min.js"></script>
     <script>
-        console.log("start widget");
+        console.log("test";)
         document.addEventListener("DOMContentLoaded", function() {
             if (typeof JFCustomWidget !== "undefined") {
+                console.log("JFCustomWidget is defined.");
+
+                // Subscribe to the "ready" event
                 JFCustomWidget.subscribe("ready", function(data) {
-                    // Subscribe to the input event to get the value of the number field
+                    console.log("Widget is ready.");
+
+                    // Subscribe to the "input" event
                     JFCustomWidget.subscribe("input", function(inputs) {
+                        console.log("Input event received:", inputs);
+
                         if (inputs.hasOwnProperty('number1')) {
                             console.log("Input value for number1:", inputs.number1);
+                        } else {
+                            console.log("No value for number1 found.");
                         }
                     });
                 });

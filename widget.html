@@ -12,7 +12,6 @@
 
     <script src="https://js.jotform.com/JotFormCustomWidget.min.js"></script>
     <script>
-        console.log("JOT API 1");
         document.addEventListener("DOMContentLoaded", function() {
             if (typeof JFCustomWidget !== "undefined") {
                 console.log("JFCustomWidget is defined.");
@@ -21,29 +20,12 @@
                 JFCustomWidget.subscribe("ready", function(data) {
                     console.log("Widget is ready.");
 
-                    // Subscribe to the "input" event to get the value of the number field
-                    JFCustomWidget.subscribe("input", function(inputs) {
-                        console.log("Input event received:", inputs);
-
-                        // Check if the `number1` field value is in `inputs`
-                        if (inputs.hasOwnProperty('number1')) {
-                            console.log("Input value for number1:", inputs.number1);
-                        } else {
-                            console.log("No value for number1 found.");
-                        }
+                    // Retrieve value of the field with ID 4 (corresponding to #input_4)
+                    JFCustomWidget.getFieldsValueById(["4"], function(res) {
+                        const data = res.data[0].value;
+                        console.log("Value of field with ID 4:", data);
                     });
                 });
-
-                // Try to get the value directly if the "input" event does not trigger
-                setInterval(function() {
-                    var number1Element = document.querySelector('#number1');
-                    if (number1Element) {
-                        var number1Value = number1Element.value;
-                        console.log("Direct value of #number1:", number1Value);
-                    } else {
-                        console.log("Element with ID #number1 not found.");
-                    }
-                }, 1000); // Check every second
             } else {
                 console.error("JFCustomWidget is not defined.");
             }

@@ -7,6 +7,10 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.2.0/dist/chart.min.js"></script>
     <script type="text/javascript">
+        function onLoadCallback() {
+            console.log("JotForm Custom Widget loaded.");
+        }
+
         (function () {
             var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
             po.src = '//js.jotform.com/JotFormCustomWidget.min.js?onload=onLoadCallback';
@@ -92,12 +96,20 @@
 
         console.log("JFCustomWidget: ", JFCustomWidget);
 
+        // Function to update chart data
+        function updateChartData(number1Value) {
+            if (!isNaN(number1Value)) {
+                myDoughnutChart.data.datasets[0].data[0] = parseFloat(number1Value);
+                myDoughnutChart.data.datasets[0].data[1] = 100 - parseFloat(number1Value); // Profit = 100 - Invested
+                myDoughnutChart.update();
+            }
+        }
+
         JFCustomWidget.subscribe('populate', function(data) {
             console.log(data);
             const newData = data.value?.split(",");
             console.log(newData);
 
-            // Eğer `newData` varsa, güncellenmiş verileri grafiğe uygulayın
             if (newData && newData.length >= 2) {
                 const newValue1 = newData[0];
                 const newValue2 = newData[1];
@@ -127,16 +139,13 @@
             JFCustomWidget.sendSubmit(data2);
         });
 
-        // Logging the value of the field with ID #input_4
+        // Update chart based on number1 field value
         JFCustomWidget.getFieldsValueByName(["number1"], function (res) {
             const number1Value = res.data[0].value;
             console.log("Field value by name 'number1':", number1Value);
-            
+
             // Güncel değeri grafiğe uygulayın
-            if (!isNaN(number1Value)) {
-                myDoughnutChart.data.datasets[0].data[0] = parseFloat(number1Value);
-                myDoughnutChart.update();
-            }
+            updateChartData(number1Value);
         });
 
         JFCustomWidget.getFieldsValueById(["11"], function (res) {

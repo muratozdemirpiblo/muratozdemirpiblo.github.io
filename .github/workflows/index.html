@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Input Display Widget</title>
+    <style>
+        #widget-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        #display {
+            font-size: 20px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="widget-container">
+        <input type="text" id="number1" placeholder="Enter a value">
+        <div id="display"></div>
+    </div>
+
+    <script src="https://js.jotform.com/JotFormCustomWidget.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            if (typeof JFCustomWidget !== "undefined") {
+                JFCustomWidget.subscribe("ready", function(data) {
+                    var number1Input = document.getElementById('number1');
+                    var display = document.getElementById('display');
+
+                    function updateDisplay() {
+                        var value = number1Input.value;
+                        display.textContent = value;
+                    }
+
+                    // Subscribe to the input event to get the value of number1
+                    JFCustomWidget.subscribe("input", function(inputs) {
+                        if (inputs.hasOwnProperty('number1')) {
+                            number1Input.value = inputs.number1;
+                            updateDisplay();
+                        }
+                    });
+
+                    // Update the display when the input changes
+                    number1Input.addEventListener('input', function() {
+                        JFCustomWidget.sendInput({
+                            number1: number1Input.value
+                        });
+                        updateDisplay();
+                    });
+                });
+            } else {
+                console.error("JFCustomWidget is not defined.");
+            }
+        });
+    </script>
+</body>
+</html>

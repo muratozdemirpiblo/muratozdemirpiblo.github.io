@@ -31,7 +31,7 @@
             labels: ["Invested", "Profit"],
             datasets: [
                 {
-                    data: [50, 50],
+                    data: [0, 0], // Başlangıçta 0 olarak ayarlıyoruz
                     backgroundColor: ["#FF5733", "#3498DB"],
                 },
             ],
@@ -91,21 +91,20 @@
         }
 
         console.log("JFCustomWidget: ", JFCustomWidget);
-        var chartData = [];
 
-        JFCustomWidget.subscribe('populate', fillConditionValue);
-
-        function fillConditionValue(data) {
+        JFCustomWidget.subscribe('populate', function(data) {
             console.log(data);
             const newData = data.value?.split(",");
-
             console.log(newData);
 
-            const newValue1 = newData[0];
-            const newValue2 = newData[1];
-            myDoughnutChart.data.datasets[0].data = [newValue1, newValue2];
-            myDoughnutChart.update();
-        };
+            // Eğer `newData` varsa, güncellenmiş verileri grafiğe uygulayın
+            if (newData && newData.length >= 2) {
+                const newValue1 = newData[0];
+                const newValue2 = newData[1];
+                myDoughnutChart.data.datasets[0].data = [parseFloat(newValue1), parseFloat(newValue2)];
+                myDoughnutChart.update();
+            }
+        });
 
         // Subscribe to ready
         JFCustomWidget.subscribe("ready", function (msg) {
@@ -128,27 +127,22 @@
             JFCustomWidget.sendSubmit(data2);
         });
 
-        // Additional JFCustomWidget functionalities
-        JFCustomWidget.setFieldsValueById([{
-            id: 10,
-            value: "Test"
-        }]);
+        // Logging the value of the field with ID #input_4
+        JFCustomWidget.getFieldsValueByName(["number1"], function (res) {
+            const number1Value = res.data[0].value;
+            console.log("Field value by name 'number1':", number1Value);
+            
+            // Güncel değeri grafiğe uygulayın
+            if (!isNaN(number1Value)) {
+                myDoughnutChart.data.datasets[0].data[0] = parseFloat(number1Value);
+                myDoughnutChart.update();
+            }
+        });
 
         JFCustomWidget.getFieldsValueById(["11"], function (res) {
             const data = res.data[0].value;
             console.log("Field value by ID 11:", data);
         });
-
-        JFCustomWidget.getFieldsValueByName(["number1"], function (res) {
-            const data = res.data[0].value;
-            console.log("Field value by name 'number1':", data);
-        });
-
-        // Logging the value of the field with ID #input_4
-        const number1Field = document.querySelector('#input_4');
-        if (number1Field) {
-            console.log("Value of the field with ID #input_4:", number1Field.value);
-        }
     </script>
 </body>
 

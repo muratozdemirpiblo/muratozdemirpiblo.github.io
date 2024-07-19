@@ -121,6 +121,15 @@
         // Subscribe to ready
         JFCustomWidget.subscribe("ready", function (msg) {
             console.log("Ready:", msg);
+
+            // Güncel değerleri grafiğe uygulayın
+            JFCustomWidget.getFieldsValueByName(["number1", "number2"], function (res) {
+                const number1Value = res.data[0].value;
+                const number2Value = res.data[1].value;
+                console.log("Field values:", number1Value, number2Value);
+
+                updateChartData(number1Value, number2Value);
+            });
         });
 
         // Subscribe to submit
@@ -139,27 +148,6 @@
             JFCustomWidget.sendSubmit(data2);
         });
 
-        // Update chart based on number1 field value
-        JFCustomWidget.getFieldsValueByName(["number1"], function (res) {
-            const number1Value = res.data[0].value;
-            console.log("Field value by name 'number1':", number1Value);
-
-            // Güncel değeri grafiğe uygulayın
-            updateChartData(number1Value);
-        });
-
-        JFCustomWidget.getFieldsValueByName(["number2"], function (res) {
-            const number2Value = res.data[0].value;
-            console.log("Field value by name 'number2':", number2Value);
-
-            // Güncel değeri grafiğe uygulayın
-            updateChartData(number2Value);
-        });
-
-        JFCustomWidget.getFieldsValueById(["11"], function (res) {
-            const data = res.data[0].value;
-            console.log("Field value by ID 11:", data);
-        });
     </script>
 </body>
 

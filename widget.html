@@ -12,6 +12,7 @@
 
     <script src="https://js.jotform.com/JotFormCustomWidget.min.js"></script>
     <script>
+        console.log("start widget");
         document.addEventListener("DOMContentLoaded", function() {
             if (typeof JFCustomWidget !== "undefined") {
                 JFCustomWidget.subscribe("ready", function(data) {

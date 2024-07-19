@@ -1,59 +1,153 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Input Display Widget</title>
-    <style>
-        #widget-container {
-            text-align: center;
-            margin-top: 20px;
+    <meta charset="utf-8">
+    <script src="//js.jotform.com/JotFormCustomWidget.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.2.0/dist/chart.min.js"></script>
+    <script type="text/javascript">
+        function onLoadCallback() {
+            console.log("JotForm Custom Widget loaded.");
         }
-        #display {
-            font-size: 20px;
-            margin-top: 10px;
+
+        (function () {
+            var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+            po.src = '//js.jotform.com/JotFormCustomWidget.min.js?onload=onLoadCallback';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+        })();
+    </script>
+    <style>
+        #chart-container {
+            width: 100%;
+            position: relative;
+            height: 400px;
         }
     </style>
 </head>
+
 <body>
-    <div id="widget-container">
-        <input type="text" id="number1" placeholder="Enter a value">
-        <div id="display"></div>
+    <div id="chart-container">
+        <canvas id="myDoughnutChart"></canvas>
     </div>
-
-    <script src="https://js.jotform.com/JotFormCustomWidget.min.js"></script>
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            if (typeof JFCustomWidget !== "undefined") {
-                JFCustomWidget.subscribe("ready", function(data) {
-                    var number1Input = document.getElementById('number1');
-                    var display = document.getElementById('display');
+        const ctx = document.getElementById('myDoughnutChart').getContext('2d');
 
-                    function updateDisplay() {
-                        var value = number1Input.value;
-                        display.textContent = value;
-                    }
+        const initialData = {
+            labels: ["Invested", "Profit"],
+            datasets: [
+                {
+                    data: [0, 100], // Başlangıçta 0 yatırım ve 100 kâr olarak ayarlıyoruz
+                    backgroundColor: ["#FF5733", "#3498DB"],
+                },
+            ],
+        };
 
-                    // Subscribe to the input event to get the value of number1
-                    JFCustomWidget.subscribe("input", function(inputs) {
-                        if (inputs.hasOwnProperty('number1')) {
-                            number1Input.value = inputs.number1;
-                            updateDisplay();
+        const myDoughnutChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: initialData,
+            options: {
+                responsive: true,
+                cutout: '70%', // Orta kısmın boş olmasını sağlar
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                return tooltipItem.label + ': ' + tooltipItem.raw;
+                            }
                         }
-                    });
+                    }
+                },
+            },
+            plugins: [{
+                id: 'text',
+                beforeDraw: function (chart) {
+                    var width = chart.width,
+                        height = chart.height,
+                        ctx = chart.ctx;
 
-                    // Update the display when the input changes
-                    number1Input.addEventListener('input', function() {
-                        JFCustomWidget.sendInput({
-                            number1: number1Input.value
-                        });
-                        updateDisplay();
-                    });
-                });
-            } else {
-                console.error("JFCustomWidget is not defined.");
+                    ctx.restore();
+                    var fontSize = (height / 150).toFixed(2);
+                    ctx.font = fontSize + "em sans-serif";
+                    ctx.textBaseline = "middle";
+
+                    var text = chart.hoveredValue || initialData.datasets[0].data[0];
+                    var color = chart.hoveredColor || initialData.datasets[0].backgroundColor[0];
+
+                    ctx.fillStyle = color;
+                    var textX = Math.round((width - ctx.measureText(text).width) / 2),
+                        textY = height / 2;
+
+                    ctx.fillText(text, textX, textY);
+                    ctx.save();
+                }
+            }]
+        });
+
+        function updateHoveredValue(value, color) {
+            myDoughnutChart.hoveredValue = value;
+            myDoughnutChart.hoveredColor = color;
+            myDoughnutChart.update();
+        }
+
+        console.log("JFCustomWidget: ", JFCustomWidget);
+
+        // Function to update chart data
+        function updateChartData(number1Value) {
+            if (!isNaN(number1Value)) {
+                myDoughnutChart.data.datasets[0].data[0] = parseFloat(number1Value);
+                myDoughnutChart.data.datasets[0].data[1] = 100 - parseFloat(number1Value); // Profit = 100 - Invested
+                myDoughnutChart.update();
             }
+        }
+
+        JFCustomWidget.subscribe('populate', function(data) {
+            console.log(data);
+            const newData = data.value
+            console.log(newData);
+
+            const newValue1 = newData;
+            updateChartData(newValue1);
+        });
+
+        // Subscribe to ready
+        JFCustomWidget.subscribe("ready", function (msg) {
+            console.log("Ready:", msg);
+        });
+
+        // Subscribe to submit
+        JFCustomWidget.subscribe("submit", function (msg) {
+            var imageData = myDoughnutChart.toBase64Image();
+            var data2 = {
+                valid: true,
+                value: JFCustomWidgetUtils.buildMetadata(
+                    'imagelinks',
+                    [{
+                        'name': "ROI Chart",
+                        'base64': imageData
+                    }]
+                )
+            };
+            JFCustomWidget.sendSubmit(data2);
+        });
+
+        // Update chart based on number1 field value
+        JFCustomWidget.getFieldsValueByName(["number1"], function (res) {
+            const number1Value = res.data[0].value;
+            console.log("Field value by name 'number1':", number1Value);
+
+            // Güncel değeri grafiğe uygulayın
+            updateChartData(number1Value);
+        });
+
+        JFCustomWidget.getFieldsValueById(["11"], function (res) {
+            const data = res.data[0].value;
+            console.log("Field value by ID 11:", data);
         });
     </script>
 </body>
+
 </html>

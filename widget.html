@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Input Display Widget</title>
+    <title>Display Number Widget</title>
     <style>
         #widget-container {
             text-align: center;
@@ -17,8 +17,7 @@
 </head>
 <body>
     <div id="widget-container">
-        <input type="text" id="number1" placeholder="Enter a value">
-        <div id="display"></div>
+        <p id="display">Enter a number in the form</p>
     </div>
 
     <script src="https://js.jotform.com/JotFormCustomWidget.min.js"></script>
@@ -26,28 +25,18 @@
         document.addEventListener("DOMContentLoaded", function() {
             if (typeof JFCustomWidget !== "undefined") {
                 JFCustomWidget.subscribe("ready", function(data) {
-                    var number1Input = document.getElementById('number1');
                     var display = document.getElementById('display');
 
-                    function updateDisplay() {
-                        var value = number1Input.value;
-                        display.textContent = value;
+                    // Function to update the display
+                    function updateDisplay(value) {
+                        display.textContent = value || 'No value entered';
                     }
 
-                    // Subscribe to the input event to get the value of number1
+                    // Subscribe to the input event to get the value of the number field
                     JFCustomWidget.subscribe("input", function(inputs) {
                         if (inputs.hasOwnProperty('number1')) {
-                            number1Input.value = inputs.number1;
-                            updateDisplay();
+                            updateDisplay(inputs.number1);
                         }
-                    });
-
-                    // Update the display when the input changes
-                    number1Input.addEventListener('input', function() {
-                        JFCustomWidget.sendInput({
-                            number1: number1Input.value
-                        });
-                        updateDisplay();
                     });
                 });
             } else {

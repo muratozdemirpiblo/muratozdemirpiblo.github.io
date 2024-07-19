@@ -108,13 +108,13 @@
 
         JFCustomWidget.subscribe('populate', function(data) {
             console.log(data);
-            const newData = data.value;
+            const newData = data;
             console.log(newData);
 
-            const newValue1 = newData.number1;
-            const newValue2 = newData.number2;
-            console.log(newValue1);
-            console.log(newValue2);
+            const newValue1 = parseFloat(newData.number1);
+            const newValue2 = parseFloat(newData.number2);
+            console.log("Number1:", newValue1);
+            console.log("Number2:", newValue2);
             updateChartData(newValue1, newValue2);
         });
 
@@ -124,8 +124,8 @@
 
             // Güncel değerleri grafiğe uygulayın
             JFCustomWidget.getFieldsValueByName(["number1", "number2"], function (res) {
-                const number1Value = res.data[0].value;
-                const number2Value = res.data[1].value;
+                const number1Value = parseFloat(res.data[0].value);
+                const number2Value = parseFloat(res.data[1].value);
                 console.log("Field values:", number1Value, number2Value);
 
                 updateChartData(number1Value, number2Value);

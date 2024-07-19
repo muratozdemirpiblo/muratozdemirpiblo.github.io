@@ -90,29 +90,29 @@
             myDoughnutChart.update();
         }
 
-        console.log("JFCustomWidget: ", JFCustomWidget)
+        console.log("JFCustomWidget: ", JFCustomWidget);
         var chartData = [];
 
         JFCustomWidget.subscribe('populate', fillConditionValue);
 
         function fillConditionValue(data) {
-            console.log(data)
+            console.log(data);
             const newData = data.value?.split(",");
 
-            console.log(newData)
+            console.log(newData);
 
-            const newValue1 = newData[0]
-            const newValue2 = newData[1]
+            const newValue1 = newData[0];
+            const newValue2 = newData[1];
             myDoughnutChart.data.datasets[0].data = [newValue1, newValue2];
             myDoughnutChart.update();
         };
 
-        //subscrive to ready
+        // Subscribe to ready
         JFCustomWidget.subscribe("ready", function (msg) {
-            console.log("Ready:", msg)
+            console.log("Ready:", msg);
         });
 
-        //subscribe to submit
+        // Subscribe to submit
         JFCustomWidget.subscribe("submit", function (msg) {
             var imageData = myDoughnutChart.toBase64Image();
             var data2 = {
@@ -124,7 +124,7 @@
                         'base64': imageData
                     }]
                 )
-            }
+            };
             JFCustomWidget.sendSubmit(data2);
         });
 
@@ -139,10 +139,16 @@
             console.log("Field value by ID 11:", data);
         });
 
-        JFCustomWidget.getFieldsValueByName(["Test"], function (res) {
+        JFCustomWidget.getFieldsValueByName(["number1"], function (res) {
             const data = res.data[0].value;
-            console.log("Field value by name 'Test':", data);
+            console.log("Field value by name 'number1':", data);
         });
+
+        // Logging the value of the field with ID #input_4
+        const number1Field = document.querySelector('#input_4');
+        if (number1Field) {
+            console.log("Value of the field with ID #input_4:", number1Field.value);
+        }
     </script>
 </body>
 

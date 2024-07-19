@@ -146,6 +146,14 @@
             updateChartData(number1Value);
         });
 
+        JFCustomWidget.getFieldsValueByName(["number2"], function (res) {
+            const number2Value = res.data[0].value;
+            console.log("Field value by name 'number2':", number2Value);
+
+            // Güncel değeri grafiğe uygulayın
+            updateChartData(number2Value);
+        });
+
         JFCustomWidget.getFieldsValueById(["11"], function (res) {
             const data = res.data[0].value;
             console.log("Field value by ID 11:", data);

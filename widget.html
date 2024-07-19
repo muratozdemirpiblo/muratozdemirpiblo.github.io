@@ -107,15 +107,12 @@
 
         JFCustomWidget.subscribe('populate', function(data) {
             console.log(data);
-            const newData = data.value?.split(",");
+            const newData = data.value
             console.log(newData);
 
-            if (newData && newData.length >= 2) {
-                const newValue1 = newData[0];
-                const newValue2 = newData[1];
-                myDoughnutChart.data.datasets[0].data = [parseFloat(newValue1), parseFloat(newValue2)];
-                myDoughnutChart.update();
-            }
+            const newValue1 = newData;
+            myDoughnutChart.data.datasets[0].data = [parseFloat(newValue1)];
+            myDoughnutChart.update();
         });
 
         // Subscribe to ready

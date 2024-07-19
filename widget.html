@@ -34,10 +34,10 @@
         const ctx = document.getElementById('myDoughnutChart').getContext('2d');
 
         const initialData = {
-            labels: ["Number 1", "Number 2"],
+            labels: ["Invested", "Profit"],
             datasets: [
                 {
-                    data: [0, 0], // Başlangıçta 0 olarak ayarlıyoruz
+                    data: [0, 100], // Başlangıçta 0 yatırım ve 100 kâr olarak ayarlıyoruz
                     backgroundColor: ["#FF5733", "#3498DB"],
                 },
             ],
@@ -96,24 +96,21 @@
         console.log("JFCustomWidget: ", JFCustomWidget);
 
         // Function to update chart data
-        function updateChartData(number1Value, number2Value) {
-            if (!isNaN(number1Value) && !isNaN(number2Value)) {
+        function updateChartData(number1Value) {
+            if (!isNaN(number1Value)) {
                 myDoughnutChart.data.datasets[0].data[0] = parseFloat(number1Value);
-                myDoughnutChart.data.datasets[0].data[1] = parseFloat(number2Value);
+                myDoughnutChart.data.datasets[0].data[1] = 100 - parseFloat(number1Value); // Profit = 100 - Invested
                 myDoughnutChart.update();
             }
-            console.log("Number1:", number1Value);
-            console.log("Number2:", number2Value);
         }
 
         JFCustomWidget.subscribe('populate', function(data) {
             console.log(data);
-            const newData = data.value;
+            const newData = data.value
             console.log(newData);
 
-            const newValue1 = newData.number1;
-            const newValue2 = newData.number2;
-            updateChartData(newValue1, newValue2);
+            const newValue1 = newData[0];
+            updateChartData(newValue1);
         });
 
         // Subscribe to ready
@@ -129,7 +126,7 @@
                 value: JFCustomWidgetUtils.buildMetadata(
                     'imagelinks',
                     [{
-                        'name': "Doughnut Chart",
+                        'name': "ROI Chart",
                         'base64': imageData
                     }]
                 )
@@ -137,14 +134,13 @@
             JFCustomWidget.sendSubmit(data2);
         });
 
-        // Update chart based on number1 and number2 field values
-        JFCustomWidget.getFieldsValueByName(["number1", "number2"], function (res) {
+        // Update chart based on number1 field value
+        JFCustomWidget.getFieldsValueByName(["number1"], function (res) {
             const number1Value = res.data[0].value;
-            const number2Value = res.data[1].value;
-            console.log("Field values:", number1Value, number2Value);
+            console.log("Field value by name 'number1':", number1Value);
 
-            // Güncel değerleri grafiğe uygulayın
-            updateChartData(number1Value, number2Value);
+            // Güncel değeri grafiğe uygulayın
+            updateChartData(number1Value);
         });
 
         JFCustomWidget.getFieldsValueById(["11"], function (res) {

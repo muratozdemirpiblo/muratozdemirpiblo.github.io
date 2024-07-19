@@ -3,40 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Display Number Widget</title>
-    <style>
-        #widget-container {
-            text-align: center;
-            margin-top: 20px;
-        }
-        #display {
-            font-size: 20px;
-            margin-top: 10px;
-        }
-    </style>
+    <title>Input Logger Widget</title>
 </head>
 <body>
     <div id="widget-container">
-        <p id="display">Enter a number in the form</p>
+        <p>Check the console for the input value.</p>
     </div>
 
     <script src="https://js.jotform.com/JotFormCustomWidget.min.js"></script>
     <script>
-        console.log("start");
         document.addEventListener("DOMContentLoaded", function() {
             if (typeof JFCustomWidget !== "undefined") {
                 JFCustomWidget.subscribe("ready", function(data) {
-                    var display = document.getElementById('display');
-
-                    // Function to update the display
-                    function updateDisplay(value) {
-                        display.textContent = value || 'No value entered';
-                    }
-
                     // Subscribe to the input event to get the value of the number field
                     JFCustomWidget.subscribe("input", function(inputs) {
                         if (inputs.hasOwnProperty('number1')) {
-                            updateDisplay(inputs.number1);
+                            console.log("Input value for number1:", inputs.number1);
                         }
                     });
                 });

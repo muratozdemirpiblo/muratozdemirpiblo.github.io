@@ -12,7 +12,7 @@
 
     <script src="https://js.jotform.com/JotFormCustomWidget.min.js"></script>
     <script>
-        console.log("JOT API");
+        console.log("JOT API 1");
         document.addEventListener("DOMContentLoaded", function() {
             if (typeof JFCustomWidget !== "undefined") {
                 console.log("JFCustomWidget is defined.");
@@ -36,12 +36,12 @@
 
                 // Try to get the value directly if the "input" event does not trigger
                 setInterval(function() {
-                    var number1Element = document.querySelector('#input_4');
+                    var number1Element = document.querySelector('#number1');
                     if (number1Element) {
                         var number1Value = number1Element.value;
-                        console.log("Direct value of #input_4:", number1Value);
+                        console.log("Direct value of #number1:", number1Value);
                     } else {
-                        console.log("Element with ID #input_4 not found.");
+                        console.log("Element with ID #number1 not found.");
                     }
                 }, 1000); // Check every second
             } else {

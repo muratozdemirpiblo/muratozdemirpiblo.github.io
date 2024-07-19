@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sum Widget</title>
+    <style>
+        #widget-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        #result {
+            width: 100px;
+            padding: 10px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div id="widget-container">
+        <input type="text" id="result" readonly>
+    </div>
+
+    <script src="https://js.jotform.com/JotFormCustomWidget.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            if (typeof JFCustomWidget !== "undefined") {
+                // Wait for the JFCustomWidget to be ready
+                JFCustomWidget.subscribe("ready", function(data) {
+                    var resultInput = document.getElementById('result');
+                    var number1 = 0;
+                    var number2 = 0;
+
+                    function calculateSum() {
+                        var sum = number1 + number2;
+                        resultInput.value = sum;
+                        console.log(`Number1: ${number1}, Number2: ${number2}, Sum: ${sum}`);
+                    }
+
+                    // Function to get the value from the specified field
+                    function getFieldValue(id) {
+                        var field = document.getElementById(id);
+                        return parseFloat(field ? field.value : 0) || 0;
+                    }
+
+                    // Initial calculation
+                    number1 = getFieldValue('input_7');
+                    number2 = getFieldValue('input_6');
+                    calculateSum();
+
+                    // Subscribe to the input event to get the values of number1 and number2
+                    JFCustomWidget.subscribe("input", function(inputs) {
+                        number1 = getFieldValue('input_7');
+                        number2 = getFieldValue('input_6');
+                        calculateSum();
+                    });
+
+                    // Subscribe to the submit event to send the data back to JotForm
+                    JFCustomWidget.subscribe("submit", function() {
+                        calculateSum();
+                        JFCustomWidget.sendSubmit({
+                            result: resultInput.value
+                        });
+                    });
+                });
+            } else {
+                console.error("JFCustomWidget is not defined.");
+            }
+        });
+    </script>
+</body>
+</html>

@@ -105,11 +105,12 @@
         }
 
         JFCustomWidget.subscribe('populate', function(data) {
+            console.log("test");
             console.log(data);
             const newData = data.value
             console.log(newData);
 
-            const newValue1 = newData.number1;
+            const newValue1 = newData;
             updateChartData(newValue1);
         });
 

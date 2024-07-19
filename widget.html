@@ -12,10 +12,9 @@
 
     <script src="https://js.jotform.com/JotFormCustomWidget.min.js"></script>
     <script>
-        console.log("test");
         document.addEventListener("DOMContentLoaded", function() {
             if (typeof JFCustomWidget !== "undefined") {
-                console.log("JFCustomWidget is defined.");
+                console.log("JFCustomWidget is defined1.");
 
                 // Subscribe to the "ready" event
                 JFCustomWidget.subscribe("ready", function(data) {
@@ -25,10 +24,13 @@
                     JFCustomWidget.subscribe("input", function(inputs) {
                         console.log("Input event received:", inputs);
 
-                        if (inputs.hasOwnProperty('number1')) {
-                            console.log("Input value for number1:", inputs.number1);
+                        // Check for the presence of the number1 field ID
+                        var number1Element = document.querySelector('#input_4');
+                        if (number1Element) {
+                            var number1Value = number1Element.value;
+                            console.log("Value of input_4:", number1Value);
                         } else {
-                            console.log("No value for number1 found.");
+                            console.log("Element with ID #input_4 not found.");
                         }
                     });
                 });

@@ -20,6 +20,8 @@
     <style>
         #chart-container {
             width: 100%;
+            position: relative;
+            height: 400px;
         }
     </style>
 </head>
@@ -35,7 +37,7 @@
             labels: ["Invested", "Profit"],
             datasets: [
                 {
-                    data: [0, 0], // Başlangıçta 0 olarak ayarlıyoruz
+                    data: [0, 100], // Başlangıçta 0 yatırım ve 100 kâr olarak ayarlıyoruz
                     backgroundColor: ["#FF5733", "#3498DB"],
                 },
             ],
@@ -46,26 +48,23 @@
             data: initialData,
             options: {
                 responsive: true,
-                cutout: 350,
+                cutout: '70%', // Orta kısmın boş olmasını sağlar
                 plugins: {
                     legend: {
                         display: false
-                    }
-                },
-                onHover: (event, elements) => {
-                    if (elements.length > 0) {
-                        const hoveredIndex = elements[0].index;
-                        const value = initialData.datasets[0].data[hoveredIndex];
-                        const color = initialData.datasets[0].backgroundColor[hoveredIndex];
-                        updateHoveredValue(value, color);
-                    } else {
-                        updateHoveredValue(initialData.datasets[0].data[0], initialData.datasets[0].backgroundColor[0]);
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                return tooltipItem.label + ': ' + tooltipItem.raw;
+                            }
+                        }
                     }
                 },
             },
             plugins: [{
                 id: 'text',
-                beforeDraw: function (chart, a, b) {
+                beforeDraw: function (chart) {
                     var width = chart.width,
                         height = chart.height,
                         ctx = chart.ctx;
@@ -111,8 +110,7 @@
             console.log(newData);
 
             const newValue1 = newData;
-            myDoughnutChart.data.datasets[0].data = [parseFloat(newValue1)];
-            myDoughnutChart.update();
+            updateChartData(newValue1);
         });
 
         // Subscribe to ready

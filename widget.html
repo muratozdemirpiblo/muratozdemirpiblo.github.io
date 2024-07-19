@@ -23,11 +23,10 @@
 
     <script src="https://js.jotform.com/JotFormCustomWidget.min.js"></script>
     <script>
-        console.log("test");
         document.addEventListener("DOMContentLoaded", function() {
             if (typeof JFCustomWidget !== "undefined") {
                 JFCustomWidget.subscribe("ready", function(data) {
-                    var number1Input = document.getElementById('#input_7');
+                    var number1Input = document.getElementById('number1');
                     var display = document.getElementById('display');
 
                     function updateDisplay() {

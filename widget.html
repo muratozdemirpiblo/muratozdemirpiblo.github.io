@@ -96,12 +96,14 @@
         console.log("JFCustomWidget: ", JFCustomWidget);
 
         // Function to update chart data
-        function updateChartData(number1Value) {
-            if (!isNaN(number1Value)) {
+        function updateChartData(number1Value, number2Value) {
+            if (!isNaN(number1Value) && !isNaN(number2Value)) {
                 myDoughnutChart.data.datasets[0].data[0] = parseFloat(number1Value);
-                myDoughnutChart.data.datasets[0].data[1] = 100 - parseFloat(number1Value); // Profit = 100 - Invested
+                myDoughnutChart.data.datasets[0].data[1] = parseFloat(number2Value);
                 myDoughnutChart.update();
             }
+            console.log("Number1:", number1Value);
+            console.log("Number2:", number2Value);
         }
 
         JFCustomWidget.subscribe('populate', function(data) {

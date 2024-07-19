@@ -3,64 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sum Widget</title>
+    <title>Input Display Widget</title>
     <style>
         #widget-container {
             text-align: center;
             margin-top: 20px;
         }
-        #result {
-            width: 100px;
-            padding: 10px;
-            font-size: 16px;
+        #display {
+            font-size: 20px;
+            margin-top: 10px;
         }
     </style>
 </head>
 <body>
     <div id="widget-container">
-        <input type="text" id="result" readonly>
+        <input type="text" id="number1" placeholder="Enter a value">
+        <div id="display"></div>
     </div>
 
     <script src="https://js.jotform.com/JotFormCustomWidget.min.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             if (typeof JFCustomWidget !== "undefined") {
-                // Wait for the JFCustomWidget to be ready
                 JFCustomWidget.subscribe("ready", function(data) {
-                    var resultInput = document.getElementById('result');
-                    var number1 = 0;
-                    var number2 = 0;
+                    var number1Input = document.getElementById('#input_7');
+                    var display = document.getElementById('display');
 
-                    function calculateSum() {
-                        var sum = number1 + number2;
-                        resultInput.value = sum;
-                        console.log(`Number1: ${number1}, Number2: ${number2}, Sum: ${sum}`);
+                    function updateDisplay() {
+                        var value = number1Input.value;
+                        display.textContent = value;
                     }
 
-                    // Function to get the value from the specified field
-                    function getFieldValue(id) {
-                        var field = document.getElementById(id);
-                        return parseFloat(field ? field.value : 0) || 0;
-                    }
-
-                    // Initial calculation
-                    number1 = getFieldValue('input_7');
-                    number2 = getFieldValue('input_6');
-                    calculateSum();
-
-                    // Subscribe to the input event to get the values of number1 and number2
+                    // Subscribe to the input event to get the value of number1
                     JFCustomWidget.subscribe("input", function(inputs) {
-                        number1 = getFieldValue('input_7');
-                        number2 = getFieldValue('input_6');
-                        calculateSum();
+                        if (inputs.hasOwnProperty('number1')) {
+                            number1Input.value = inputs.number1;
+                            updateDisplay();
+                        }
                     });
 
-                    // Subscribe to the submit event to send the data back to JotForm
-                    JFCustomWidget.subscribe("submit", function() {
-                        calculateSum();
-                        JFCustomWidget.sendSubmit({
-                            result: resultInput.value
+                    // Update the display when the input changes
+                    number1Input.addEventListener('input', function() {
+                        JFCustomWidget.sendInput({
+                            number1: number1Input.value
                         });
+                        updateDisplay();
                     });
                 });
             } else {

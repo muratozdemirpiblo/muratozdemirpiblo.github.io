@@ -107,13 +107,12 @@
         }
 
         JFCustomWidget.subscribe('populate', function(data) {
-            console.log("dats");
             console.log(data);
-            const newData = JSON.parse(data.value); // Gelen veriyi JSON olarak ayrıştır
+            const newData = data.value.split(','); // Gelen veriyi virgülle ayır
             console.log(newData);
 
-            const newValue1 = parseFloat(newData.number1);
-            const newValue2 = parseFloat(newData.number2);
+            const newValue1 = parseFloat(newData[0]);
+            const newValue2 = parseFloat(newData[1]);
             console.log("Number1:", newValue1);
             console.log("Number2:", newValue2);
             updateChartData(newValue1, newValue2);

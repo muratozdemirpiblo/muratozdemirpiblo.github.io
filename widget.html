@@ -41,8 +41,8 @@
             const newData = data.value.split(',').map(value => value.trim()); // Gelen veriyi virgülle ayır ve boşlukları kırp
             console.log(newData);
 
-            newValue1 = parseFloat(newData[0]);
-            newValue2 = parseFloat(newData[1]);
+            newValue1 = newData[0];
+            newValue2 = newData[1];
             console.log("Number1:", newValue1);
             console.log("Number2:", newValue2);
         });
@@ -53,8 +53,8 @@
 
             // Güncel değerleri grafiğe uygulayın
             JFCustomWidget.getFieldsValueByName(["number1", "number2"], function (res) {
-                number1Value = parseFloat(res.data[0].value.trim());
-                number2Value = parseFloat(res.data[1].value.trim());
+                number1Value = res.data[0].value.trim();
+                number2Value = res.data[1].value.trim();
                 console.log("Field values:", number1Value, number2Value);
 
             });

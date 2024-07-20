@@ -32,10 +32,10 @@
     </div>
     <script>
 
-        const newValue1=0;
-        const newValue2=0;
-        const number1Value=0;
-        const number2Value=0;
+        let newValue1=0;
+        let newValue2=0;
+        let number1Value=0;
+        let number2Value=0;
          JFCustomWidget.subscribe('populate', function(data) {
             console.log(data);
             const newData = data.value.split(',').map(value => value.trim()); // Gelen veriyi virgülle ayır ve boşlukları kırp

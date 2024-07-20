@@ -31,6 +31,7 @@
         <canvas id="myDoughnutChart"></canvas>
     </div>
     <script>
+        console.log("x");
         const ctx = document.getElementById('myDoughnutChart').getContext('2d');
 
         const initialData = {
@@ -118,15 +119,14 @@
             updateChartData(newValue1, newValue2);
         });
 
-
         // Subscribe to ready
         JFCustomWidget.subscribe("ready", function (msg) {
             console.log("Ready:", msg);
 
             // Güncel değerleri grafiğe uygulayın
             JFCustomWidget.getFieldsValueByName(["number1", "number2"], function (res) {
-                const number1Value = parseFloat(res.data[0].value);
-                const number2Value = parseFloat(res.data[1].value);
+                const number1Value = parseFloat(res.data[0].value.trim());
+                const number2Value = parseFloat(res.data[1].value.trim());
                 console.log("Field values:", number1Value, number2Value);
 
                 updateChartData(number1Value, number2Value);

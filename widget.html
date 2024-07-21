@@ -87,53 +87,38 @@
             }]
         });
 
-        function updateHoveredValue(value, color) {
-            myDoughnutChart.hoveredValue = value;
-            myDoughnutChart.hoveredColor = color;
-            myDoughnutChart.update();
-        }
-
-        console.log("JFCustomWidget: ", JFCustomWidget);
-
-        // Function to update chart data
-        function updateChartData(number1Value, number2Value) {
-            if (!isNaN(number1Value) && !isNaN(number2Value)) {
-                myDoughnutChart.data.datasets[0].data[0] = number1Value;
-                myDoughnutChart.data.datasets[0].data[1] = number2Value;
+        function updateChartData(values) {
+            if (Array.isArray(values) && values.length === 2 && !isNaN(values[0]) && !isNaN(values[1])) {
+                myDoughnutChart.data.datasets[0].data[0] = values[0];
+                myDoughnutChart.data.datasets[0].data[1] = values[1];
                 myDoughnutChart.update();
+            } else {
+                console.error("Invalid data for chart:", values);
             }
-            console.log("Number1:", number1Value);
-            console.log("Number2:", number2Value);
         }
 
         JFCustomWidget.subscribe('populate', function(data) {
-            console.log("datalar");
             console.log(data);
-            const newData = data;
-            console.log(newData);
+            const newData = data.value.split(',').map(value => value.trim());
+            console.log("Processed Data:", newData);
 
-            const newValue1 = newData.number1;
-            const newValue2 = newData.number2;
-            console.log("Number1:", newValue1);
-            console.log("Number2:", newValue2);
-            updateChartData(newData.number1, newData.number2);
+            const values = [parseFloat(newData[0]), parseFloat(newData[1])];
+            console.log("Parsed Values:", values);
+
+            updateChartData(values);
         });
 
-        // Subscribe to ready
         JFCustomWidget.subscribe("ready", function (msg) {
             console.log("Ready:", msg);
 
-            // Güncel değerleri grafiğe uygulayın
             JFCustomWidget.getFieldsValueByName(["number1", "number2"], function (res) {
-                const number1Value = parseFloat(res.data[0].value);
-                const number2Value = parseFloat(res.data[1].value);
-                console.log("Field values:", number1Value, number2Value);
+                const values = [parseFloat(res.data[0].value.trim()), parseFloat(res.data[1].value.trim())];
+                console.log("Field values:", values);
 
-                updateChartData(number1Value, number2Value);
+                updateChartData(values);
             });
         });
 
-        // Subscribe to submit
         JFCustomWidget.subscribe("submit", function (msg) {
             var imageData = myDoughnutChart.toBase64Image();
             var data2 = {

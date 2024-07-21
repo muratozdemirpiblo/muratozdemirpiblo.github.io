@@ -31,20 +31,92 @@
         <canvas id="myDoughnutChart"></canvas>
     </div>
     <script>
+        const ctx = document.getElementById('myDoughnutChart').getContext('2d');
 
-        let newValue1=0;
-        let newValue2=0;
-        let number1Value=0;
-        let number2Value=0;
-         JFCustomWidget.subscribe('populate', function(data) {
+        const initialData = {
+            labels: ["Invested", "Profit"],
+            datasets: [
+                {
+                    data: [0, 100], // Başlangıçta 0 yatırım ve 100 kâr olarak ayarlıyoruz
+                    backgroundColor: ["#FF5733", "#3498DB"],
+                },
+            ],
+        };
+
+        const myDoughnutChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: initialData,
+            options: {
+                responsive: true,
+                cutout: '70%', // Orta kısmın boş olmasını sağlar
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                return tooltipItem.label + ': ' + tooltipItem.raw;
+                            }
+                        }
+                    }
+                },
+            },
+            plugins: [{
+                id: 'text',
+                beforeDraw: function (chart) {
+                    var width = chart.width,
+                        height = chart.height,
+                        ctx = chart.ctx;
+
+                    ctx.restore();
+                    var fontSize = (height / 150).toFixed(2);
+                    ctx.font = fontSize + "em sans-serif";
+                    ctx.textBaseline = "middle";
+
+                    var text = chart.hoveredValue || initialData.datasets[0].data[0];
+                    var color = chart.hoveredColor || initialData.datasets[0].backgroundColor[0];
+
+                    ctx.fillStyle = color;
+                    var textX = Math.round((width - ctx.measureText(text).width) / 2),
+                        textY = height / 2;
+
+                    ctx.fillText(text, textX, textY);
+                    ctx.save();
+                }
+            }]
+        });
+
+        function updateHoveredValue(value, color) {
+            myDoughnutChart.hoveredValue = value;
+            myDoughnutChart.hoveredColor = color;
+            myDoughnutChart.update();
+        }
+
+        console.log("JFCustomWidget: ", JFCustomWidget);
+
+        // Function to update chart data
+        function updateChartData(number1Value, number2Value) {
+            if (!isNaN(number1Value) && !isNaN(number2Value)) {
+                myDoughnutChart.data.datasets[0].data[0] = number1Value;
+                myDoughnutChart.data.datasets[0].data[1] = number2Value;
+                myDoughnutChart.update();
+            }
+            console.log("Number1:", number1Value);
+            console.log("Number2:", number2Value);
+        }
+
+        JFCustomWidget.subscribe('populate', function(data) {
+            console.log("datalar");
             console.log(data);
-            const newData = data.value.split(',').map(value => value.trim()); // Gelen veriyi virgülle ayır ve boşlukları kırp
+            const newData = data;
             console.log(newData);
 
-            newValue1 = newData[0];
-            newValue2 = newData[1];
+            const newValue1 = newData.number1;
+            const newValue2 = newData.number2;
             console.log("Number1:", newValue1);
             console.log("Number2:", newValue2);
+            updateChartData(newData.number1, newData.number2);
         });
 
         // Subscribe to ready
@@ -53,11 +125,28 @@
 
             // Güncel değerleri grafiğe uygulayın
             JFCustomWidget.getFieldsValueByName(["number1", "number2"], function (res) {
-                number1Value = res.data[0].value.trim();
-                number2Value = res.data[1].value.trim();
+                const number1Value = parseFloat(res.data[0].value);
+                const number2Value = parseFloat(res.data[1].value);
                 console.log("Field values:", number1Value, number2Value);
 
+                updateChartData(number1Value, number2Value);
             });
+        });
+
+        // Subscribe to submit
+        JFCustomWidget.subscribe("submit", function (msg) {
+            var imageData = myDoughnutChart.toBase64Image();
+            var data2 = {
+                valid: true,
+                value: JFCustomWidgetUtils.buildMetadata(
+                    'imagelinks',
+                    [{
+                        'name': "ROI Chart",
+                        'base64': imageData
+                    }]
+                )
+            };
+            JFCustomWidget.sendSubmit(data2);
         });
 
     </script>

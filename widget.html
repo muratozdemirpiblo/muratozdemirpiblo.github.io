@@ -102,8 +102,8 @@
             const newData = data.value.split(',').map(value => value.trim());
             console.log("Processed Data:", newData);
 
-            const values = [parseFloat(newData[0]), parseFloat(newData[1])];
-            console.log("Parsed Values:", values);
+            const values = [newData[0],newData[1]];
+            console.log("Parsed Value:", values);
 
             updateChartData(values);
         });
@@ -112,7 +112,7 @@
             console.log("Ready:", msg);
 
             JFCustomWidget.getFieldsValueByName(["number1", "number2"], function (res) {
-                const values = [parseFloat(res.data[0].value.trim()), parseFloat(res.data[1].value.trim())];
+                const values = [res.data[0].value,res.data[1].value];
                 console.log("Field values:", values);
 
                 updateChartData(values);

@@ -38,7 +38,7 @@
             datasets: [
                 {
                     data: [0, 100], // Başlangıçta 0 yatırım ve 100 kâr olarak ayarlıyoruz
-                    backgroundColor: ["#FF5733", "#3498DB"],
+                    backgroundColor: ["#FF5733", "#3498DB","#FF0000"],
                 },
             ],
         };
@@ -91,6 +91,7 @@
             if (Array.isArray(values) && values.length === 2 && !isNaN(values[0]) && !isNaN(values[1])) {
                 myDoughnutChart.data.datasets[0].data[0] = values[0];
                 myDoughnutChart.data.datasets[0].data[1] = values[1];
+                myDoughnutChart.data.datasets[0].data[2] = (100-values[0]-values[1]);
                 myDoughnutChart.update();
             } else {
                 console.error("Invalid data for chart:", values);
@@ -112,7 +113,7 @@
             console.log("Ready:", msg);
 
             JFCustomWidget.getFieldsValueByName(["number1", "number2"], function (res) {
-                const values = [res.data[0].value,res.data[1].value];
+                const values = [res.data[0].value,res.data[1].value,(100-res.data[0].value-res.data[1].value)];
                 console.log("Field values:", values);
 
                 updateChartData(values);

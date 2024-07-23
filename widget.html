@@ -101,7 +101,7 @@
         });
 
         function updateChartData(values) {
-            if (Array.isArray(values) && values.length === 2 && !isNaN(values[0]) && !isNaN(values[1])) {
+            if (Array.isArray(values) && values.length === 10) {
                 myDoughnutChart.data.datasets[0].data[0] = values[0];
                 myDoughnutChart.data.datasets[0].data[1] = values[1];
                 myDoughnutChart.data.datasets[0].data[2] = values[2];
@@ -123,7 +123,7 @@
             const newData = data.value.split(',').map(value => value.trim());
             console.log("Processed Data:", newData);
 
-            const values = [newData[0],newData[1]];
+            const values = [newData[0],newData[1],newData[2],newData[3],newData[4],newData[5],newData[6],newData[7],newData[8],newData[9]];
             console.log("Parsed Value:", values);
 
             updateChartData(values);
@@ -132,7 +132,7 @@
         JFCustomWidget.subscribe("ready", function (msg) {
             console.log("Ready:", msg);
 
-            JFCustomWidget.getFieldsValueByName(["number1", "number2"], function (res) {
+            JFCustomWidget.getFieldsValueByName(["number1", "number2","raisingPurchase204","managingMaverick205","purchaseOrder206"], function (res) {
                 const values = [res.data[0].value,
                                 res.data[1].value,
                                res.data[2].value,

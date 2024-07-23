@@ -107,7 +107,8 @@
             const newData = data.value.split(',').map(value => value.trim());
             console.log("Processed Data:", newData);
 
-            const values = [parseFloat(newData[0]), parseFloat(newData[1]), parseFloat(newData[2]), parseFloat(newData[3])];
+            const values = [parseFloat(newData[0]), parseFloat(newData[1]), parseFloat(newData[2]), parseFloat(newData[3]),
+                           parseFloat(newData[4]),parseFloat(newData[5]),parseFloat(newData[6]),parseFloat(newData[7]),parseFloat(newData[8]),parseFloat(newData[9])];
             console.log("Parsed Values:", values);
 
             updateChartData(values);

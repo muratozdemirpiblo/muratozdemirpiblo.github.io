@@ -134,7 +134,18 @@
             console.log("Ready:", msg);
 
             JFCustomWidget.getFieldsValueByName(["number1", "number2", "number3", "number4", "number5", "number6", "number7", "number8", "number9", "number10"], function (res) {
-                const values = res.data.map(field => parseFloat(field.value.trim()));
+                const value1 = parseFloat(res.data[0].value.trim());
+                const value2 = parseFloat(res.data[1].value.trim());
+                const value3 = parseFloat(res.data[2].value.trim());
+                const value4 = parseFloat(res.data[3].value.trim());
+                const value5 = parseFloat(res.data[4].value.trim());
+                const value6 = parseFloat(res.data[5].value.trim());
+                const value7 = parseFloat(res.data[6].value.trim());
+                const value8 = parseFloat(res.data[7].value.trim());
+                const value9 = parseFloat(res.data[8].value.trim());
+                const value10 = parseFloat(res.data[9].value.trim());
+
+                const values = [value1, value2, value3, value4, value5, value6, value7, value8, value9, value10];
                 console.log("Field values:", values);
 
                 updateChartData(values);

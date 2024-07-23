@@ -94,7 +94,7 @@
         });
 
         function updateChartData(values) {
-            if (Array.isArray(values) && values.length === 10) {
+            if (Array.isArray(values)) {
                 myBarChart.data.datasets[0].data[0] = values[0];
                 myBarChart.data.datasets[0].data[1] = values[1];
 
@@ -131,7 +131,7 @@
         });
 
         JFCustomWidget.subscribe("ready", function (msg) {
-            console.log("Ready:", msg);
+            console.log("Ready: 1", msg);
 
             JFCustomWidget.getFieldsValueByName(["number1", "number2", "number3", "number4", "number5", "number6", "number7", "number8", "number9", "number10"], function (res) {
                 const value1 = parseFloat(res.data[0].value.trim());

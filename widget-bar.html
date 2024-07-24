@@ -79,12 +79,18 @@
         });
 
         function updateChartData(values) {
-            if (Array.isArray(values) && values.length === 4) { // Değer uzunluğunu kontrol et
+            if (Array.isArray(values)) { // Değer uzunluğunu kontrol et
                 myBarChart.data.datasets[0].data[0] = values[0];
                 myBarChart.data.datasets[0].data[1] = values[1];
 
                 myBarChart.data.datasets[1].data[0] = values[2];
                 myBarChart.data.datasets[1].data[1] = values[3];
+
+                myBarChart.data.datasets[2].data[0] = values[4];
+                myBarChart.data.datasets[2].data[1] = values[5];
+
+                myBarChart.data.datasets[3].data[0] = values[6];
+                myBarChart.data.datasets[3].data[1] = values[7];
 
                 myBarChart.update();
             } else {
@@ -111,8 +117,12 @@
                 const value2 = parseFloat(res.data[1].value.trim());
                 const value3 = parseFloat(res.data[2].value.trim());
                 const value4 = parseFloat(res.data[3].value.trim());
+                const value5 = parseFloat(res.data[4].value.trim());
+                const value6 = parseFloat(res.data[5].value.trim());
+                const value7 = parseFloat(res.data[6].value.trim());
+                const value8 = parseFloat(res.data[7].value.trim());
 
-                const values = [value1, value2, value3, value4];
+                const values = [value1, value2, value3, value4,value5,value6,value7,value8];
                 console.log("Field values:", values);
 
                 updateChartData(values);

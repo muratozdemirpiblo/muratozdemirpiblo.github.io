@@ -122,7 +122,7 @@
         JFCustomWidget.subscribe("ready", function (msg) {
             console.log("Ready:", msg);
 
-            JFCustomWidget.getFieldsValueByName(["number1", "number2", "number3", "number4"], function (res) {
+            JFCustomWidget.getFieldsValueByName(["number1", "number2", "number3", "number4","number5","number6","number7","number8"], function (res) {
                 const value1 = parseFloat(res.data[0].value.trim());
                 const value2 = parseFloat(res.data[1].value.trim());
                 const value3 = parseFloat(res.data[2].value.trim());

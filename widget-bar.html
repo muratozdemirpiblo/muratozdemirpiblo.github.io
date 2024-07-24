@@ -34,7 +34,7 @@
         const ctx = document.getElementById('myBarChart').getContext('2d');
 
         const initialData = {
-            labels: ["Year 1", "Year 2", "Year 3", "Year 4"],
+            labels: ["Year 1", "Year 2", "Year 3", "Year 4","Year 5"],
             datasets: [
                 {
                     label: 'Data 1',
@@ -80,7 +80,7 @@
 
         function updateChartData(values) {
             // Ensure that we have exactly 8 values and no NaNs
-            if (Array.isArray(values) && values.length === 8 && values.every(v => !isNaN(v))) {
+            if (Array.isArray(values) && values.length === 10 && values.every(v => !isNaN(v))) {
                 myBarChart.data.datasets[0].data = [values[0], values[2], values[4], values[6],values[8]];
                 myBarChart.data.datasets[1].data = [values[1], values[3], values[5], values[7],values[9]];
                 myBarChart.update();

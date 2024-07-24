@@ -82,7 +82,7 @@
                     },
                     y: {
                         stacked: false,
-                        beginAtZero: true
+                        beginAtZero: true 
                     }
                 }
             }
@@ -90,17 +90,14 @@
 
         function updateChartData(values) {
             if (Array.isArray(values)) { // Değer uzunluğunu kontrol et
-                myBarChart.data.datasets[0].data[0] = values[0];
-                myBarChart.data.datasets[0].data[1] = values[2];
+                myBarChart.data.datasets[0].data[0] = [values[0],values[2]];
+                
 
-                myBarChart.data.datasets[1].data[0] = values[1];
-                myBarChart.data.datasets[1].data[1] = values[3];
+                myBarChart.data.datasets[1].data[0] = [values[1],values[3]];
 
-                myBarChart.data.datasets[2].data[0] = values[4];
-                myBarChart.data.datasets[2].data[1] = values[6];
+                myBarChart.data.datasets[2].data[0] = [values[4],values[6]];
 
-                myBarChart.data.datasets[3].data[0] = values[5];
-                myBarChart.data.datasets[3].data[1] = values[7];
+                myBarChart.data.datasets[3].data[0] = [values[5],values[7]];
 
                 myBarChart.update();
             } else {

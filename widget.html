@@ -28,68 +28,103 @@
 
 <body>
     <div id="chart-container">
-        <canvas id="myBarChart"></canvas>
+        <canvas id="myDoughnutChart"></canvas>
     </div>
     <script>
-        const ctx = document.getElementById('myBarChart').getContext('2d');
+        const ctx = document.getElementById('myDoughnutChart').getContext('2d');
 
         const initialData = {
-            labels: ["Data 1", "Data 2", "Data 3", "Data 4", "Data 5", "Data 6", "Data 7", "Data 8"],
+            labels: ["Raising Purchase Orders", "Managing Maverick spend & Spend leakage","Purchase Order approvals",
+                    "Management of supplier and purchase invoices","Coding invoice processes","Finance query management and dashboard reporting",
+                    "Debt collection administration processes","Customer Invoicing & Finance Workflow Management","Online expense management","Undefined"],
             datasets: [
                 {
-                    label: 'Values',
-                    data: [0, 0, 0, 0, 0, 0, 0, 0],
-                    backgroundColor: '#FF5733'
-                }
-            ]
+                    data: [0, 100], // Başlangıçta 0 yatırım ve 100 kâr olarak ayarlıyoruz
+                    backgroundColor:  [
+                    '#FCB517', 
+                    '#F15D21',  
+                    '#F6911E',  
+                    '#ED7D31',  
+                    '#FFDB9B',  
+                    '#A5A5A5',  
+                    '#DBDBDB',
+                    '#F8A731',
+                    '#FF9E3D',
+                    '#ECA859'
+                ],
+                },
+            ],
         };
 
-        const myBarChart = new Chart(ctx, {
-            type: 'bar',
+        const myDoughnutChart = new Chart(ctx, {
+            type: 'doughnut',
             data: initialData,
             options: {
                 responsive: true,
+                cutout: '70%', // Orta kısmın boş olmasını sağlar
                 plugins: {
                     legend: {
                         display: false
                     },
                     tooltip: {
                         callbacks: {
-                            label: function (tooltipItem) {
-                                return tooltipItem.dataset.label + ': ' + tooltipItem.raw;
+                            label: function(tooltipItem) {
+                                return tooltipItem.label + ': ' + tooltipItem.raw;
                             }
                         }
                     }
                 },
-                scales: {
-                    x: {
-                        stacked: false
-                    },
-                    y: {
-                        stacked: false,
-                        beginAtZero: true
-                    }
+            },
+            plugins: [{
+                id: 'text',
+                beforeDraw: function (chart) {
+                    var width = chart.width,
+                        height = chart.height,
+                        ctx = chart.ctx;
+
+                    ctx.restore();
+                    var fontSize = (height / 150).toFixed(2);
+                    ctx.font = fontSize + "em sans-serif";
+                    ctx.textBaseline = "middle";
+
+                    var text = chart.hoveredValue || initialData.datasets[0].data[0];
+                    var color = chart.hoveredColor || initialData.datasets[0].backgroundColor[0];
+
+                    ctx.fillStyle = color;
+                    var textX = Math.round((width - ctx.measureText(text).width) / 2),
+                        textY = height / 2;
+
+                    ctx.fillText(text, textX, textY);
+                    ctx.save();
                 }
-            }
+            }]
         });
 
         function updateChartData(values) {
-            // Ensure that we have exactly 8 values and no NaNs
-            if (Array.isArray(values) && values.length === 8 && values.every(v => !isNaN(v))) {
-                myBarChart.data.datasets[0].data = values;
-                myBarChart.update();
+            if (Array.isArray(values) && values.length === 10) {
+                myDoughnutChart.data.datasets[0].data[0] = values[0];
+                myDoughnutChart.data.datasets[0].data[1] = values[1];
+                myDoughnutChart.data.datasets[0].data[2] = values[2];
+                myDoughnutChart.data.datasets[0].data[3] = values[3];
+                myDoughnutChart.data.datasets[0].data[4] = values[4];
+                myDoughnutChart.data.datasets[0].data[5] = values[5];
+                myDoughnutChart.data.datasets[0].data[6] = values[6];
+                myDoughnutChart.data.datasets[0].data[7] = values[7];
+                myDoughnutChart.data.datasets[0].data[8] = values[8];
+                myDoughnutChart.data.datasets[0].data[9] = values[9];
+                myDoughnutChart.update();
             } else {
                 console.error("Invalid data for chart:", values);
             }
         }
 
-        JFCustomWidget.subscribe('populate', function (data) {
+        JFCustomWidget.subscribe('populate', function(data) {
             console.log(data);
             const newData = data.value.split(',').map(value => value.trim());
             console.log("Processed Data:", newData);
 
-            const values = newData.map(value => parseFloat(value));
-            console.log("Parsed Values:", values);
+            const values = [newData[0],newData[1],newData[2],newData[3],newData[4],newData[5],newData[6],newData[7],newData[8],newData[9]];
+            console.log("Parsed Value:", values);
 
             updateChartData(values);
         });
@@ -97,8 +132,17 @@
         JFCustomWidget.subscribe("ready", function (msg) {
             console.log("Ready:", msg);
 
-            JFCustomWidget.getFieldsValueByName(["number1", "number2", "number3", "number4", "number5", "number6", "number7", "number8"], function (res) {
-                const values = res.data.map(field => parseFloat(field.value.trim()));
+            JFCustomWidget.getFieldsValueByName(["number1", "number2","raisingPurchase204","managingMaverick205","purchaseOrder206"], function (res) {
+                const values = [res.data[0].value,
+                                res.data[1].value,
+                               res.data[2].value,
+                               res.data[3].value,
+                               res.data[4].value,
+                               res.data[5].value,
+                               res.data[6].value,
+                               res.data[7].value,
+                               res.data[8].value,
+                               res.data[9].value];
                 console.log("Field values:", values);
 
                 updateChartData(values);
@@ -106,7 +150,7 @@
         });
 
         JFCustomWidget.subscribe("submit", function (msg) {
-            var imageData = myBarChart.toBase64Image();
+            var imageData = myDoughnutChart.toBase64Image();
             var data2 = {
                 valid: true,
                 value: JFCustomWidgetUtils.buildMetadata(

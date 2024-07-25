@@ -132,6 +132,18 @@
                 myDoughnutChart.data.datasets[0].data[8] = values[8];
                 myDoughnutChart.data.datasets[0].data[9] = values[9];
                 myDoughnutChart.update();
+
+                // Veri listesini güncelle
+                const dataList = document.getElementById('data-list');
+                dataList.innerHTML = ''; // Önce mevcut listeyi temizle
+                values.forEach((value, index) => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = `${initialData.labels[index]}: ${value}`;
+                    dataList.appendChild(listItem);
+                });
+            } else {
+                console.error("Invalid data for chart:", values);
+            }
             } else {
                 console.error("Invalid data for chart:", values);
             }

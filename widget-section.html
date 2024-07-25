@@ -18,10 +18,24 @@
         })();
     </script>
     <style>
+        #container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
         #chart-container {
-            width: 100%;
-            position: relative;
+            width: 50%;
             height: 400px;
+        }
+        #data-container {
+            width: 45%;
+        }
+        #data-container ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        #data-container li {
+            margin-bottom: 10px;
         }
     </style>
 </head>
@@ -30,6 +44,11 @@
     <div id="chart-container">
         <canvas id="myDoughnutChart"></canvas>
     </div>
+    <div id="data-container">
+            <ul id="data-list">
+                <!-- Veri listesi buraya eklenecek -->
+            </ul>
+        </div>
     <script>
         const ctx = document.getElementById('myDoughnutChart').getContext('2d');
 

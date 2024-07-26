@@ -153,68 +153,7 @@
             const values = [newData[0],newData[1],newData[2],newData[3],newData[4],newData[5],newData[6],newData[7],newData[8],newData[9]];
             console.log("Parsed Value:", values);
 
-            const values = [
-        39.77, 700350, 25.33, 120450, 18.9, 86000,
-        10.25, 45000, 5.67, 25000
-    ];
-
-    const titles = [
-        "Online expense management", "In-Person expense management",
-        "Travel expense management", "Accommodation expense management",
-        "Food expense management", "Entertainment expense management",
-        "Office supplies expense management", "Utilities expense management",
-        "Maintenance expense management", "Miscellaneous expense management"
-    ];
-
-    const descriptions = [
-        "Enhance contract negotiation outcomes by leveraging data-driven insights and strategic planning. Achieve better terms and reduced risks with comprehensive analysis.",
-        "Manage in-person expenses effectively with comprehensive tracking and analysis.",
-        "Optimize travel expenses through detailed monitoring and strategic planning.",
-        "Control accommodation costs with effective management and planning.",
-        "Reduce food expenses by leveraging data insights and strategic approaches.",
-        "Manage entertainment expenses with detailed tracking and budget planning.",
-        "Streamline office supplies expenses with comprehensive tracking.",
-        "Optimize utilities expenses through strategic planning and analysis.",
-        "Maintain low maintenance costs with effective management strategies.",
-        "Manage miscellaneous expenses with detailed tracking and strategic planning."
-    ];
-
-    const expenseList = document.getElementById('expense-list');
-
-    for (let i = 0; i < values.length; i += 2) {
-        const percentage = values[i];
-        const amount = values[i + 1];
-        const title = titles[i / 2];
-        const description = descriptions[i / 2];
-
-        const li = document.createElement('li');
-        const div = document.createElement('div');
-        div.className = 'expense-management';
-
-        const percentageDiv = document.createElement('div');
-        percentageDiv.className = 'percentage';
-        percentageDiv.innerText = percentage + '%';
-
-        const amountDiv = document.createElement('div');
-        amountDiv.className = 'amount';
-        amountDiv.innerText = '£' + amount;
-
-        const titleDiv = document.createElement('div');
-        titleDiv.className = 'title';
-        titleDiv.innerText = title;
-
-        const descriptionDiv = document.createElement('div');
-        descriptionDiv.className = 'description';
-        descriptionDiv.innerText = description;
-
-        div.appendChild(percentageDiv);
-        div.appendChild(amountDiv);
-        div.appendChild(titleDiv);
-        div.appendChild(descriptionDiv);
-
-        li.appendChild(div);
-        expenseList.appendChild(li);
-    }
+            
 
             updateChartData(values);
         });

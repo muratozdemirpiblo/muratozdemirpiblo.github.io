@@ -122,27 +122,23 @@
         });
 
         function updateChartData(values) {
-            if (Array.isArray(values) && values.length === 10) {
-                myDoughnutChart.data.datasets[0].data[0] = values[0];
-                myDoughnutChart.data.datasets[0].data[1] = values[1];
-                myDoughnutChart.data.datasets[0].data[2] = values[2];
-                myDoughnutChart.data.datasets[0].data[3] = values[3];
-                myDoughnutChart.data.datasets[0].data[4] = values[4];
-                myDoughnutChart.data.datasets[0].data[5] = values[5];
-                myDoughnutChart.data.datasets[0].data[6] = values[6];
-                myDoughnutChart.data.datasets[0].data[7] = values[7];
-                myDoughnutChart.data.datasets[0].data[8] = values[8];
-                myDoughnutChart.data.datasets[0].data[9] = values[9];
-                myDoughnutChart.update();
-
-
-    
+    if (Array.isArray(values) && values.length === 10) {
+        myDoughnutChart.data.datasets[0].data[0] = values[0];
+        myDoughnutChart.data.datasets[0].data[1] = values[1];
+        myDoughnutChart.data.datasets[0].data[2] = values[2];
+        myDoughnutChart.data.datasets[0].data[3] = values[3];
+        myDoughnutChart.data.datasets[0].data[4] = values[4];
+        myDoughnutChart.data.datasets[0].data[5] = values[5];
+        myDoughnutChart.data.datasets[0].data[6] = values[6];
+        myDoughnutChart.data.datasets[0].data[7] = values[7];
+        myDoughnutChart.data.datasets[0].data[8] = values[8];
+        myDoughnutChart.data.datasets[0].data[9] = values[9];
+        myDoughnutChart.update();
+    } else {
+        console.error("Invalid data for chart:", values);
     }
-                
-             else {
-                console.error("Invalid data for chart:", values);
-            }
-        }
+}
+
 
         JFCustomWidget.subscribe('populate', function(data) {
             console.log(data);

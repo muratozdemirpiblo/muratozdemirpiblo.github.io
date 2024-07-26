@@ -18,7 +18,7 @@
         })();
     </script>
     <style>
-        #container {
+         #container {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
@@ -37,25 +37,57 @@
         #data-container li {
             margin-bottom: 10px;
         }
+        .expense-management {
+            background-color: #f0f4ff;
+            padding: 20px;
+            border-radius: 10px;
+            width: 100%;
+            text-align: center;
+        }
+        .percentage {
+            font-size: 2em;
+            font-weight: bold;
+            color: #333;
+        }
+        .amount {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #000;
+        }
+        .title {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-top: 20px;
+            color: #333;
+        }
+        .description {
+            font-size: 1em;
+            color: #666;
+            margin-top: 10px;
+        }
     </style>
 </head>
 
 <body>
-    <div id="chart-container">
-        <canvas id="myDoughnutChart"></canvas>
-    </div>
-    <div id="data-container">
+    <div id="container">
+        <div id="data-container">
             <ul id="expense-list">
-                <div class="expense-management">
-    <div class="percentage"> %</div>
-    <div class="amount">£ </div>
-    <div class="title">Raising Purchase Orders</div>
-    <div class="description">
-        Automate activity, streamline approval and management flow, and capture rich data with our industry-leading, user-friendly contract lifecycle management software.
-    </div>
-</div>
+                <li>
+                    <div class="expense-management">
+                        <div class="percentage">%</div>
+                        <div class="amount">£</div>
+                        <div class="title">Raising Purchase Orders</div>
+                        <div class="description">
+                            Automate activity, streamline approval and management flow, and capture rich data with our industry-leading, user-friendly contract lifecycle management software.
+                        </div>
+                    </div>
+                </li>
             </ul>
         </div>
+        <div id="chart-container">
+            <canvas id="myDoughnutChart"></canvas>
+        </div>
+    </div>
     
     
     <script>

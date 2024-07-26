@@ -139,18 +139,26 @@
     <script>
 
 window.onload = function() {
-            const container = document.getElementsByClassName('form-section.page-section');
-            const divs = Array.from(container.children);
-            const fragment = document.createDocumentFragment();
+    // Belirli bir sınıfa sahip olan tüm öğeleri seçiyoruz
+    const container = document.querySelector('.form-section.page-section');
+    if (!container) return; // Eğer container bulunamazsa, işleme devam etme
 
-            for (let i = 0; i < 10; i++) {
-                fragment.appendChild(divs[i]);
-                fragment.appendChild(divs[i + 10]);
-            }
+    // Container içindeki tüm çocuk öğeleri alıyoruz
+    const divs = Array.from(container.children);
+    const fragment = document.createDocumentFragment();
 
-            container.innerHTML = '';
-            container.appendChild(fragment);
-        }
+    // Her iki öğeyi fragment'a ekliyoruz
+    for (let i = 0; i < divs.length; i += 10) {
+        // i ve i+10 arasında kalan öğeleri fragment'a ekliyoruz
+        if (divs[i]) fragment.appendChild(divs[i]);
+        if (divs[i + 10]) fragment.appendChild(divs[i + 10]);
+    }
+
+    // Container'ı temizleyip fragment'ı ekliyoruz
+    container.innerHTML = '';
+    container.appendChild(fragment);
+};
+
 
 
         const ctx = document.getElementById('myDoughnutChart').getContext('2d');

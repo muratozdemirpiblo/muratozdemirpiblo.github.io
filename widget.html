@@ -78,7 +78,7 @@
             <ul id="expense-list">
                 <li>
                     <div class="expense-management">
-                        <div class="percentage">%</div>
+                        <div class="percentage" id="raisingPurchasePercent">%</div>
                         <div class="amount">£</div>
                         <div class="title">Raising Purchase Orders</div>
                         <div class="description">
@@ -211,7 +211,7 @@
         myDoughnutChart.data.datasets[0].data[9] = values[9];
         myDoughnutChart.update();
 
-        
+        document.getElementById('raisingPurchasePercent').innerText = values[0] + '%';
 
 
         

@@ -86,7 +86,7 @@
                         </div>
                     </div>
                     <div class="expense-management">
-                        <div class="percentage">%</div>
+                        <div class="percentage" id="purchaseorderapprovals">%</div>
                         <div class="amount">£</div>
                         <div class="title">Purchase Order approvals</div>
                         <div class="description">
@@ -94,7 +94,7 @@
                         </div>
                     </div>
                     <div class="expense-management">
-                        <div class="percentage">%</div>
+                        <div class="percentage" id="managementofsupplierandpurchaseinvoices">%</div>
                         <div class="amount">£</div>
                         <div class="title">Management of supplier and purchase invoices</div>
                         <div class="description">
@@ -102,7 +102,7 @@
                         </div>
                     </div>
                     <div class="expense-management">
-                        <div class="percentage">%</div>
+                        <div class="percentage" id="financequerymanagementanddashboardreporting">%</div>
                         <div class="amount">£</div>
                         <div class="title">Finance query management and dashboard reporting</div>
                         <div class="description">
@@ -110,7 +110,7 @@
                         </div>
                     </div>
                     <div class="expense-management">
-                        <div class="percentage">%</div>
+                        <div class="percentage" id="debtcollectionadministrationprocesses">%</div>
                         <div class="amount">£</div>
                         <div class="title">Debt collection administration processes</div>
                         <div class="description">
@@ -212,7 +212,10 @@
         myDoughnutChart.update();
 
         document.getElementById('raisingPurchasePercent').innerText = values[0] + '%';
-
+        document.getElementById('purchaseorderapprovals').innerText = values[2] + '%';
+        document.getElementById('managementofsupplierandpurchaseinvoices').innerText = values[4] + '%';
+        document.getElementById('financequerymanagementanddashboardreporting').innerText = values[6] + '%';
+        document.getElementById('debtcollectionadministrationprocesses').innerText = values[8] + '%';
 
         
     } else {

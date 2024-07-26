@@ -69,14 +69,7 @@
             color: #666;
             margin-top: 10px;
         }
-        .form-section.page-section {
-            display: flex;
-            flex-wrap: wrap;
-        }
-        .form-section.page-section > ul,li{
-            max-width: 50%;
-            box-sizing: border-box;
-        }
+        
         
     </style>
 </head>
@@ -138,26 +131,6 @@
     
     <script>
 
-window.onload = function() {
-    // Belirli bir sınıfa sahip olan tüm öğeleri seçiyoruz
-    const container = document.querySelector('.form-section.page-section');
-    if (!container) return; // Eğer container bulunamazsa, işleme devam etme
-
-    // Container içindeki tüm çocuk öğeleri alıyoruz
-    const divs = Array.from(container.children);
-    const fragment = document.createDocumentFragment();
-
-    // Her iki öğeyi fragment'a ekliyoruz
-    for (let i = 0; i < divs.length; i += 10) {
-        // i ve i+10 arasında kalan öğeleri fragment'a ekliyoruz
-        if (divs[i]) fragment.appendChild(divs[i]);
-        if (divs[i + 10]) fragment.appendChild(divs[i + 10]);
-    }
-
-    // Container'ı temizleyip fragment'ı ekliyoruz
-    container.innerHTML = '';
-    container.appendChild(fragment);
-};
 
 
 

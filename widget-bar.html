@@ -81,8 +81,8 @@
         function updateChartData(values) {
             // Ensure that we have exactly 8 values and no NaNs
             if (Array.isArray(values) && values.every(v => !isNaN(v))) {
-                myBarChart.data.datasets[0].data = [values[0], values[2], values[4], values[6],values[8]];
-                myBarChart.data.datasets[1].data = [values[1], values[3], values[5], values[7],values[9]];
+                myBarChart.data.datasets[0].data = [values[1], values[3], values[5], values[7],values[9]];
+                myBarChart.data.datasets[1].data = [values[0], values[2], values[4], values[6],values[8]];
                 myBarChart.update();
             } else {
                 console.error("Invalid data for chart:", values);

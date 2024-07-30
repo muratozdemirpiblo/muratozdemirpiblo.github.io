@@ -235,7 +235,7 @@
         document.getElementById('debtcollectionadministrationprocesses').innerText = values[8] + '%';
 
         const total =  values[10]+ values[11]+ values[12]+ values[13]+ values[14]+values[15]+values[16]+values[17]+values[18]+values[19];
-
+        console.log(values[10]);
         myDoughnutChart.hoveredValue = "£ "+total;
         myDoughnutChart.hoveredColor = initialData.datasets[0].backgroundColor[0];
         

@@ -204,7 +204,7 @@
         });
 
         function updateChartData(values) {
-    if (Array.isArray(values) && values.length === 10) {
+    if (Array.isArray(values)) {
         myDoughnutChart.data.datasets[0].data[0] = values[0];
         myDoughnutChart.data.datasets[0].data[1] = values[1];
         myDoughnutChart.data.datasets[0].data[2] = values[2];

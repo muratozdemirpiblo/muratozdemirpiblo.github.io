@@ -77,16 +77,7 @@
             background-color: #25252C;
             height: 1px;
         }
-        .center-text {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 1.5em;
-            font-weight: bold;
-            color: #333;
-            text-align: center;
-        }
+        
         
     </style>
 </head>
@@ -96,7 +87,7 @@
         
         <div id="chart-container">
             <canvas id="myDoughnutChart"></canvas>
-            <div class="center-text" id="centerText"></div>
+          
         </div>
         <div id="data-container">
             <ul id="expense-list">
@@ -233,7 +224,7 @@
         document.getElementById('debtcollectionadministrationprocesses').innerText = values[8] + '%';
 
         const total = values.reduce((sum, value) => sum + value, 0);
-        document.getElementById('centerText').innerText = total;
+        
 
         
     } else {

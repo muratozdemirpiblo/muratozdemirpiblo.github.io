@@ -235,8 +235,14 @@
         document.getElementById('debtcollectionadministrationprocesses').innerText = values[8] + '%';
 
         const total =  parseFloat(values[10])+ parseFloat(values[11])+ parseFloat(values[12])+ parseFloat(values[13])+ parseFloat(values[14])+parseFloat(values[15])+parseFloat(values[16])+parseFloat(values[17])+parseFloat(values[18])+parseFloat(values[19]);
-        console.log("total: "+total);
-        myDoughnutChart.hoveredValue = "£ "+total;
+        total = Math.round(total);
+
+        const formattedTotal = new Intl.NumberFormat('tr-TR', {
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0
+        }).format(total);
+
+        myDoughnutChart.hoveredValue = "£ "+formattedTotal;
         myDoughnutChart.hoveredColor = initialData.datasets[0].backgroundColor[0];
         
         myDoughnutChart.update();

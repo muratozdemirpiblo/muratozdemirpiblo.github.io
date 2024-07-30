@@ -226,7 +226,7 @@
         myDoughnutChart.data.datasets[0].data[17] = values[17];
         myDoughnutChart.data.datasets[0].data[18] = values[18];
         myDoughnutChart.data.datasets[0].data[19] = values[19];
-        myDoughnutChart.update();
+        
 
         document.getElementById('raisingPurchasePercent').innerText = values[0] + '%';
         document.getElementById('purchaseorderapprovals').innerText = values[2] + '%';
@@ -239,7 +239,7 @@
         myDoughnutChart.hoveredValue = "£ "+total;
         myDoughnutChart.hoveredColor = initialData.datasets[0].backgroundColor[0];
         
-
+        myDoughnutChart.update();
         
     } else {
         console.error("Invalid data for chart:", values);

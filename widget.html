@@ -172,19 +172,21 @@
                 myDoughnutChart.data.datasets[0].data = dataWithLabels.map(item => item.value);
 
                 // Yan taraftaki listeyi güncelle
-                const expenseList = document.getElementById('expense-list');
-                expenseList.innerHTML = '';
-                dataWithLabels.forEach(item => {
-                    const listItem = document.createElement('li');
-                    listItem.innerHTML = `
-                        <div class="expense-management">
-                            <div class="percentage" style="color: ${initialData.datasets[0].backgroundColor[initialData.labels.indexOf(item.label)]};">${item.value}%</div>
-                            <div class="title">${item.label}</div>
-                        </div>
-                        <div class="divider-line"></div>
-                    `;
-                    expenseList.appendChild(listItem);
-                });
+const expenseList = document.getElementById('expense-list');
+expenseList.innerHTML = '';
+dataWithLabels.forEach(item => {
+    if (item.value !== 0) { // 0 değerlerini filtrele
+        const listItem = document.createElement('li');
+        listItem.innerHTML = `
+            <div class="expense-management">
+                <div class="percentage" style="color: ${initialData.datasets[0].backgroundColor[initialData.labels.indexOf(item.label)]};">${item.value}%</div>
+                <div class="title">${item.label}</div>
+            </div>
+            <div class="divider-line"></div>
+        `;
+        expenseList.appendChild(listItem);
+    }
+});
 
                 const total =  parseFloat(values[10])+ parseFloat(values[11])+ parseFloat(values[12])+ parseFloat(values[13])+ parseFloat(values[14])+parseFloat(values[15])+parseFloat(values[16])+parseFloat(values[17])+parseFloat(values[18])+parseFloat(values[19]);
        

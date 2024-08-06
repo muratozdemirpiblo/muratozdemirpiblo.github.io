@@ -189,7 +189,19 @@ const expenseList = document.getElementById('expense-list');
 expenseList.innerHTML = '';
 dataWithLabels.forEach(item => {
     if (item.value !== 0) { // 0 değerlerini filtrele
-        const listItem = document.createElement('li');
+        if(item.label=="Raising Purchase Orders") {
+            const listItem = document.createElement('li');
+        listItem.innerHTML = `
+            <div class="expense-management">
+                <div class="percentage" style="color: #40404c;">${item.value}%</div>
+                <div class="title">${item.label}</div>
+            </div>
+            <div class="divider-line"></div>
+        `;
+        expenseList.appendChild(listItem);
+        }
+        else {
+            const listItem = document.createElement('li');
         listItem.innerHTML = `
             <div class="expense-management">
                 <div class="percentage" style="color: ${initialData.datasets[0].backgroundColor[colorset[initialData.labels.indexOf(item.label)]]};">${item.value}%</div>
@@ -198,6 +210,8 @@ dataWithLabels.forEach(item => {
             <div class="divider-line"></div>
         `;
         expenseList.appendChild(listItem);
+        }
+        
     }
 });
 

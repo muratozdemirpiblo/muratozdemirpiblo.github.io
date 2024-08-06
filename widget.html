@@ -189,7 +189,7 @@ const expenseList = document.getElementById('expense-list');
 expenseList.innerHTML = '';
 dataWithLabels.forEach(item => {
     if (item.value !== 0) { // 0 değerlerini filtrele
-        if(item.label=="Raising Purchase Orders") {
+        if(item.label.toLowerCase()=="raising purchase orders") {
             const listItem = document.createElement('li');
         listItem.innerHTML = `
             <div class="expense-management">

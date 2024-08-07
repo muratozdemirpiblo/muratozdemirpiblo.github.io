@@ -175,9 +175,7 @@
                 const colorset = dataWithLabels.map((item, index) => {
                     if (index === 0 || index === 10) {
                         return '#40404c';
-                    }
-                    return initialData.datasets[0].backgroundColor[initialData.labels.indexOf(item.label)];
-                    if (index === 1 || index === 11) {
+                    } else if (index === 1 || index === 11) {
                         return '#dbdbdb';
                     }
                     return initialData.datasets[0].backgroundColor[initialData.labels.indexOf(item.label)];

@@ -130,39 +130,7 @@
                     tooltip: {
                         callbacks: {
                             label: function (tooltipItem) {
-                                const index = tooltipItem.dataIndex;
-                                if (index === 0 || index === 10) {
-                                    return 'Raising Purchase Orders: ' + tooltipItem.raw + '%';
-                                } else if (index === 1 || index === 11) {
-                                    return 'Managing Maverick spend & Spend leakage: ' + tooltipItem.raw + '%';
-                                }
-                                else if (index === 2 || index === 12) {
-                                    return 'Purchase Order approvals: ' + tooltipItem.raw + '%';
-                                }
-                                else if (index === 3 || index === 13) {
-                                    return 'Management of supplier and purchase invoices: ' + tooltipItem.raw + '%';
-                                }
-                                else if (index === 4 || index === 14) {
-                                    return 'Coding invoice processes: ' + tooltipItem.raw + '%';
-                                }
-                                else if (index === 5 || index === 15) {
-                                    return 'Finance query management and dashboard reporting: ' + tooltipItem.raw + '%';
-                                }
-                                else if (index === 6 || index === 16) {
-                                    return 'Debt collection administration processes: ' + tooltipItem.raw + '%';
-                                }
-                                else if (index === 7 || index === 17) {
-                                    return 'Customer Invoicing & Finance Workflow Management: ' + tooltipItem.raw + '%';
-                                }
-                                else if (index === 8 || index === 18) {
-                                    return 'Online expense management: ' + tooltipItem.raw + '%';
-                                }
-                                else if (index === 9 || index === 19) {
-                                    return 'IT finance systems: ' + tooltipItem.raw + '%';
-                                }
-                                else {
-                                    return tooltipItem.label + ': ' + tooltipItem.raw + '%';
-                                }
+                                return tooltipItem.label + ': ' + tooltipItem.raw + '%';
                             }
                         }
                     }
@@ -204,18 +172,7 @@
                 myDoughnutChart.data.labels = dataWithLabels.map(item => item.label);
                 myDoughnutChart.data.datasets[0].data = dataWithLabels.map(item => item.value);
 
-                // Renkleri ayarla
-                const colorset = dataWithLabels.map((item, index) => {
-                    if (index === 0 || index === 10) {
-                        return '#ff0000';
-                    } else if (index === 1 || index === 11) {
-                        return '#dbdbdb';
-                    }
-                    else if (index === 2 || index === 12) {
-                        return '#ed7d34';
-                    }
-                    return initialData.datasets[0].backgroundColor[initialData.labels.indexOf(item.label)];
-                });
+                
 
                 myDoughnutChart.data.datasets[0].backgroundColor = colorset;
 

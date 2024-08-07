@@ -177,6 +177,10 @@
                         return '#40404c';
                     }
                     return initialData.datasets[0].backgroundColor[initialData.labels.indexOf(item.label)];
+                    if (index === 2 || index === 12) {
+                        return '#dbdbdb';
+                    }
+                    return initialData.datasets[0].backgroundColor[initialData.labels.indexOf(item.label)];
                 });
 
                 myDoughnutChart.data.datasets[0].backgroundColor = colorset;

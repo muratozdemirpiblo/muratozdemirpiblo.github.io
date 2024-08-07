@@ -171,46 +171,41 @@
                 myDoughnutChart.data.labels = dataWithLabels.map(item => item.label);
                 myDoughnutChart.data.datasets[0].data = dataWithLabels.map(item => item.value);
 
-                const colorset = [
-                        '#40404c',
-                        '#dbdbdb',
-                        '#ed7d34',
-                        '#fbb315',
-                        '#b1aaa5',
-                        '#ffde9d',
-                        '#f15d22',
-                        '#f6911e',
-                        '#000000',
-                        '#000000'
-                    ]
+                // Renkleri ayarla
+                const colorset = dataWithLabels.map((item, index) => {
+                    if (index === 0 || index === 10) {
+                        return '#40404c';
+                    }
+                    return initialData.datasets[0].backgroundColor[initialData.labels.indexOf(item.label)];
+                });
+
+                myDoughnutChart.data.datasets[0].backgroundColor = colorset;
 
                 // Yan taraftaki listeyi güncelle
-const expenseList = document.getElementById('expense-list');
-expenseList.innerHTML = '';
-dataWithLabels.forEach(item => {
-    if (item.value !== 0) { // 0 değerlerini filtrele
-        const listItem = document.createElement('li');
-        listItem.innerHTML = `
-            <div class="expense-management">
-                <div class="percentage" style="color: ${initialData.datasets[0].backgroundColor[initialData.labels.indexOf(item.label)]};">${item.value}%</div>
-                <div class="title">${item.label}</div>
-            </div>
-            <div class="divider-line"></div>
-        `;
-        expenseList.appendChild(listItem);
-    }
-});
+                const expenseList = document.getElementById('expense-list');
+                expenseList.innerHTML = '';
+                dataWithLabels.forEach(item => {
+                    if (item.value !== 0) { // 0 değerlerini filtrele
+                        const listItem = document.createElement('li');
+                        listItem.innerHTML = `
+                            <div class="expense-management">
+                                <div class="percentage" style="color: ${initialData.datasets[0].backgroundColor[initialData.labels.indexOf(item.label)]};">${item.value}%</div>
+                                <div class="title">${item.label}</div>
+                            </div>
+                            <div class="divider-line"></div>
+                        `;
+                        expenseList.appendChild(listItem);
+                    }
+                });
 
-                const total =  parseFloat(values[10])+ parseFloat(values[11])+ parseFloat(values[12])+ parseFloat(values[13])+ parseFloat(values[14])+parseFloat(values[15])+parseFloat(values[16])+parseFloat(values[17])+parseFloat(values[18])+parseFloat(values[19]);
-       
+                const total = values.reduce((acc, val) => acc + val, 0);
+                const formattedTotal = new Intl.NumberFormat('en-EN', {
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 0
+                }).format(Math.round(total));
 
-        const formattedTotal = new Intl.NumberFormat('en-EN', {
-            minimumFractionDigits: 0,
-            maximumFractionDigits: 0
-        }).format(Math.round(total));
-
-        myDoughnutChart.hoveredValue = "£ "+formattedTotal;
-        myDoughnutChart.hoveredColor = initialData.datasets[0].backgroundColor[0];
+                myDoughnutChart.hoveredValue = "£ " + formattedTotal;
+                myDoughnutChart.hoveredColor = initialData.datasets[0].backgroundColor[0];
 
                 myDoughnutChart.update();
             } else {

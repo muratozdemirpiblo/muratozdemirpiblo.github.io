@@ -166,15 +166,13 @@
                 // Verileri ve etiketleri sırala
                 const dataWithLabels = initialData.labels.map((label, index) => ({
                     label: label,
-                    value: values[index]
+                    value: values[index],
+                    color: initialData.datasets[0].backgroundColor[index] // Renkleri de dahil et
                 })).sort((a, b) => b.value - a.value);
 
                 myDoughnutChart.data.labels = dataWithLabels.map(item => item.label);
                 myDoughnutChart.data.datasets[0].data = dataWithLabels.map(item => item.value);
-
-                
-
-                myDoughnutChart.data.datasets[0].backgroundColor = colorset;
+                myDoughnutChart.data.datasets[0].backgroundColor = dataWithLabels.map(item => item.color); // Renkleri güncelle
 
                 // Yan taraftaki listeyi güncelle
                 const expenseList = document.getElementById('expense-list');
@@ -184,7 +182,7 @@
                         const listItem = document.createElement('li');
                         listItem.innerHTML = `
                             <div class="expense-management">
-                                <div class="percentage" style="color: ${initialData.datasets[0].backgroundColor[initialData.labels.indexOf(item.label)]};">${item.value}%</div>
+                                <div class="percentage" style="color: ${item.color};">${item.value}%</div>
                                 <div class="title">${item.label}</div>
                             </div>
                             <div class="divider-line"></div>

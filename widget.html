@@ -131,7 +131,8 @@
                             label: function (tooltipItem) {
                                 if (tooltipItem.dataIndex === 0 || tooltipItem.dataIndex === 10) {
                                     return 'Raising Purchase Orders: ' + tooltipItem.raw + '%';
-                                } else if((tooltipItem.dataIndex === 1 || tooltipItem.dataIndex === 11)){
+                                } else if(tooltipItem.dataIndex === 1 || tooltipItem.dataIndex === 11)
+                                {
                                     return tooltipItem.label + 'Managing Maverick spend & Spend leakage: ' + tooltipItem.raw + '%';
                                 }
                             }

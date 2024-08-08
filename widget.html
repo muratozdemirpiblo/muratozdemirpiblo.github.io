@@ -204,7 +204,7 @@ canvas {
         const formattedTotal = new Intl.NumberFormat('en-EN', {
             minimumFractionDigits: 0,
             maximumFractionDigits: 0
-        }).format(Math.round(total));
+        }).format(Math.round(sum));
 
         myDoughnutChart.hoveredValue = "£ " + formattedTotal;
         myDoughnutChart.hoveredColor = initialData.datasets[0].backgroundColor[0];

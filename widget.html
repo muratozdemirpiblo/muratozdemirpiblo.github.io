@@ -161,62 +161,48 @@
             }]
         });
 
-        
         function updateChartData(values) {
-    if (Array.isArray(values)) {
-        // "Raising Purchase Orders" için özel işlem yapın
-        const firstElement = {
-            label: initialData.labels[0], // "Raising Purchase Orders"
-            value: values[0],
-            color: initialData.datasets[0].backgroundColor[0] // İlk renk
-        };
+            if (Array.isArray(values)) {
+                // Verileri ve etiketleri sırala
+                const dataWithLabels = initialData.labels.map((label, index) => ({
+                    label: label,
+                    value: values[index],
+                    color: initialData.datasets[0].backgroundColor[index] // Renkleri de dahil et
+                })).sort((a, b) => b.value - a.value);
 
-        // Diğer elemanları sırala
-        const otherDataWithLabels = initialData.labels.slice(1).map((label, index) => ({
-            label: label,
-            value: values[index + 1], // İlk elemanı atladığımız için index+1
-            color: initialData.datasets[0].backgroundColor[index + 1] // İlk rengi atladığımız için index+1
-        })).sort((a, b) => b.value - a.value);
+                myDoughnutChart.data.labels = dataWithLabels.map(item => item.label);
+                myDoughnutChart.data.datasets[0].data = dataWithLabels.map(item => item.value);
+                myDoughnutChart.data.datasets[0].backgroundColor = dataWithLabels.map(item => item.color); // Renkleri güncelle
 
-        // Dizinin başına "Raising Purchase Orders" öğesini ekleyin
-        const dataWithLabels = [firstElement, ...otherDataWithLabels];
+                // Yan taraftaki listeyi güncelle
+                const expenseList = document.getElementById('expense-list');
+                expenseList.innerHTML = '';
+                dataWithLabels.forEach(item => {
+                    const listItem = document.createElement('li');
+                        listItem.innerHTML = `
+                            <div class="expense-management">
+                                <div class="percentage" style="color: ${item.color};">${item.value}%</div>
+                                <div class="title">${item.label}</div>
+                            </div>
+                            <div class="divider-line"></div>
+                        `;
+                        expenseList.appendChild(listItem);
+                });
 
-        myDoughnutChart.data.labels = dataWithLabels.map(item => item.label);
-        myDoughnutChart.data.datasets[0].data = dataWithLabels.map(item => item.value);
-        myDoughnutChart.data.datasets[0].backgroundColor = dataWithLabels.map(item => item.color); // Renkleri güncelle
+                const total = values.reduce((acc, val) => acc + val, 0);
+                const formattedTotal = new Intl.NumberFormat('en-EN', {
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 0
+                }).format(Math.round(total));
 
-        // Yan taraftaki listeyi güncelle
-        const expenseList = document.getElementById('expense-list');
-        expenseList.innerHTML = '';
-        dataWithLabels.forEach(item => {
-            if (item.value !== 0) { // 0 değerlerini filtrele
-                const listItem = document.createElement('li');
-                listItem.innerHTML = `
-                    <div class="expense-management">
-                        <div class="percentage" style="color: ${item.color};">${item.value}%</div>
-                        <div class="title">${item.label}</div>
-                    </div>
-                    <div class="divider-line"></div>
-                `;
-                expenseList.appendChild(listItem);
+                myDoughnutChart.hoveredValue = "£ " + formattedTotal;
+                myDoughnutChart.hoveredColor = initialData.datasets[0].backgroundColor[0];
+
+                myDoughnutChart.update();
+            } else {
+                console.error("Invalid data for chart:", values);
             }
-        });
-
-        const total = values.reduce((acc, val) => acc + val, 0);
-        const formattedTotal = new Intl.NumberFormat('en-EN', {
-            minimumFractionDigits: 0,
-            maximumFractionDigits: 0
-        }).format(Math.round(total));
-
-        myDoughnutChart.hoveredValue = "£ " + formattedTotal;
-        myDoughnutChart.hoveredColor = initialData.datasets[0].backgroundColor[0];
-
-        myDoughnutChart.update();
-    } else {
-        console.error("Invalid data for chart:", values);
-    }
-}
-
+        }
 
         JFCustomWidget.subscribe('populate', function (data) {
             console.log(data);

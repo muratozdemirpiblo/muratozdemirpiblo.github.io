@@ -164,11 +164,11 @@
         function updateChartData(values) {
             if (Array.isArray(values)) {
                 // Verileri ve etiketleri sırala
-                const dataWithLabels = initialData.labels.map((label, index) => ({
-                    label: label,
-                    value: values[index],
-                    color: initialData.datasets[0].backgroundColor[index] // Renkleri de dahil et
-                })).sort((a, b) => b.value - a.value);
+                // const dataWithLabels = initialData.labels.map((label, index) => ({
+                //     label: label,
+                //     value: values[index],
+                //     color: initialData.datasets[0].backgroundColor[index] // Renkleri de dahil et
+                // })).sort((a, b) => b.value - a.value);
 
                 myDoughnutChart.data.labels = dataWithLabels.map(item => item.label);
                 myDoughnutChart.data.datasets[0].data = dataWithLabels.map(item => item.value);

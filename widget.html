@@ -170,7 +170,7 @@ canvas {
         // Verileri ve etiketleri belirlenen sıraya göre ayarlayın
         const dataWithLabels = initialData.labels.map((label, index) => ({
             label: label,
-            value: parseFloat((values[index]).toFixed(1)),
+            value: parseFloat((values[index]).toFixed(2)),
             color: initialData.datasets[0].backgroundColor[index]
         }));
 
@@ -226,7 +226,7 @@ canvas {
 
             JFCustomWidget.getFieldsValueByName(["number1", "number2", "raisingPurchase204", "managingMaverick205", "purchaseOrder206"], function (res) {
                 const values = [
-                    parseFloat(res.data[0].value.toFixed(1)),
+                    parseFloat(res.data[0].value.toFixed(2)),
                     parseFloat(res.data[1].value.toFixed(1)),
                     parseFloat(res.data[2].value.toFixed(1)),
                     parseFloat(res.data[3].value.toFixed(1)),

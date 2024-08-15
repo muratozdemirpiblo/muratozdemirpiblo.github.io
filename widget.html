@@ -215,6 +215,8 @@ canvas {
             maximumFractionDigits: 0
         }).format(Math.round(total));
 
+        console.log(formatNumber(formattedTotal));
+
         myDoughnutChart.hoveredValue = "£ " + formatNumber(formattedTotal);
         myDoughnutChart.hoveredColor = initialData.datasets[0].backgroundColor[0];
 

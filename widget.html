@@ -198,13 +198,24 @@ canvas {
             }
         });
 
+        function formatNumber(value) {
+    if (value >= 1000000) {
+        return (value / 1000000).toFixed(1) + 'M';
+    } else if (value >= 1000) {
+        return (value / 1000).toFixed(1) + 'K';
+    } else {
+        return value.toString();
+    }
+}
+
+
         const total = values[10]+values[11]+values[12]+values[13]+values[14]+values[15]+values[16]+values[17]+values[18]+values[19];
         const formattedTotal = new Intl.NumberFormat('en-EN', {
             minimumFractionDigits: 0,
             maximumFractionDigits: 0
         }).format(Math.round(total));
 
-        myDoughnutChart.hoveredValue = "£ " + formattedTotal;
+        myDoughnutChart.hoveredValue = "£ " + formatNumber(formattedTotal);
         myDoughnutChart.hoveredColor = initialData.datasets[0].backgroundColor[0];
 
         myDoughnutChart.update();

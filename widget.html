@@ -167,18 +167,14 @@ canvas {
             }]
         });
 
-  
         function updateChartData(values) {
     if (Array.isArray(values)) {
         // Verileri ve etiketleri belirlenen sıraya göre ayarlayın
-        const dataWithLabels = initialData.labels.map((label, index) => {
-            const value = isNaN(values[index]) ? 0 : values[index].toFixed(1);
-            return {
-                label: label,
-                value: value,
-                color: initialData.datasets[0].backgroundColor[index]
-            };
-        });
+        const dataWithLabels = initialData.labels.map((label, index) => ({
+    label: label,
+    value: values[index].toFixed(1),
+    color: initialData.datasets[0].backgroundColor[index]
+}));
 
         // Donut chart ve listeyi güncelle
         myDoughnutChart.data.labels = dataWithLabels.map(item => item.label);
@@ -191,7 +187,7 @@ canvas {
         const expenseList = document.getElementById('expense-list');
         expenseList.innerHTML = '';
         sortedDataWithLabels.forEach(item => {
-            if (item.value !== '0.0') { // 0 değerlerini filtrele
+            if (item.value !== 0) { // 0 değerlerini filtrele
                 const listItem = document.createElement('li');
                 listItem.innerHTML = `
                     <div class="expense-management">
@@ -204,11 +200,24 @@ canvas {
             }
         });
 
-        const total = values.reduce((sum, val) => sum + (isNaN(val) ? 0 : val), 0);
+        function formatNumber(value) {
+    if (value >= 1000000) {
+        return Math.floor(value / 1000000) + 'M';
+    } else if (value >= 1000) {
+        return Math.floor(value / 1000) + 'K';
+    } else {
+        return value.toString();
+    }
+}
+
+
+        const total = values[10]+values[11]+values[12]+values[13]+values[14]+values[15]+values[16]+values[17]+values[18]+values[19];
         const formattedTotal = new Intl.NumberFormat('en-EN', {
             minimumFractionDigits: 0,
             maximumFractionDigits: 0
         }).format(Math.round(total));
+
+        console.log(formatNumber(formattedTotal));
 
         myDoughnutChart.hoveredValue = "£ " + formatNumber(total);
         myDoughnutChart.hoveredColor = initialData.datasets[0].backgroundColor[0];
@@ -218,7 +227,6 @@ canvas {
         console.error("Invalid data for chart:", values);
     }
 }
-
 
         JFCustomWidget.subscribe('populate', function (data) {
             console.log(data);

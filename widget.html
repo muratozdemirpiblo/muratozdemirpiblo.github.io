@@ -170,19 +170,11 @@ canvas {
         function updateChartData(values) {
     if (Array.isArray(values)) {
         // Verileri ve etiketleri belirlenen sıraya göre ayarlayın
-        const dataWithLabels = initialData.labels.map((label, index) => {
-    const rawValue = values[index];
-    const formattedValue = parseFloat(rawValue.toFixed(1));
-    
-    // Eğer decimal kısım 0 ise, .0 kısmını kaldır
-    const valueToDisplay = rawValue % 1 === 0 ? rawValue.toFixed(0) : formattedValue;
-    
-    return {
-        label: label,
-        value: valueToDisplay,
-        color: initialData.datasets[0].backgroundColor[index]
-    };
-});
+        const dataWithLabels = initialData.labels.map((label, index) => ({
+    label: label,
+    value: parseFloat(values[index]).toFixed(1),
+    color: initialData.datasets[0].backgroundColor[index]
+}));
 
         // Donut chart ve listeyi güncelle
         myDoughnutChart.data.labels = dataWithLabels.map(item => item.label);

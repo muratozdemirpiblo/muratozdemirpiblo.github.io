@@ -172,7 +172,7 @@ canvas {
         // Verileri ve etiketleri belirlenen sıraya göre ayarlayın
         const dataWithLabels = initialData.labels.map((label, index) => ({
     label: label,
-    value: parseFloat(values[index]).toFixed(1),
+    value: values[index].toFixed(1),
     color: initialData.datasets[0].backgroundColor[index]
 }));
 

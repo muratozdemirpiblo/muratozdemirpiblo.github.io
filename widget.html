@@ -6,7 +6,17 @@
     <script src="//js.jotform.com/JotFormCustomWidget.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.2.0/dist/chart.min.js"></script>
-    
+    <script>
+        function onLoadCallback() {
+            console.log("JotForm Custom Widget loaded.");
+        }
+
+        (function () {
+            var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+            po.src = '//js.jotform.com/JotFormCustomWidget.min.js?onload=onLoadCallback';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+        })();
+    </script>
     <style>
         #container {
     display: flex;
@@ -85,15 +95,7 @@ canvas {
     </div>
 
     <script>
-function onLoadCallback() {
-            console.log("JotForm Custom Widget loaded.");
-        }
 
-        (function () {
-            var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-            po.src = '//js.jotform.com/JotFormCustomWidget.min.js?onload=onLoadCallback';
-            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-        })();
 
         const ctx = document.getElementById('myDoughnutChart').getContext('2d');
 
@@ -168,11 +170,19 @@ function onLoadCallback() {
         function updateChartData(values) {
     if (Array.isArray(values)) {
         // Verileri ve etiketleri belirlenen sıraya göre ayarlayın
-        const dataWithLabels = initialData.labels.map((label, index) => ({
-            label: label,
-            value: parseFloat((values[index]).toFixed(1)),
-            color: initialData.datasets[0].backgroundColor[index]
-        }));
+        const dataWithLabels = initialData.labels.map((label, index) => {
+    const rawValue = values[index];
+    const formattedValue = parseFloat(rawValue.toFixed(1));
+    
+    // Eğer decimal kısım 0 ise, .0 kısmını kaldır
+    const valueToDisplay = rawValue % 1 === 0 ? rawValue.toFixed(0) : formattedValue;
+    
+    return {
+        label: label,
+        value: valueToDisplay,
+        color: initialData.datasets[0].backgroundColor[index]
+    };
+});
 
         // Donut chart ve listeyi güncelle
         myDoughnutChart.data.labels = dataWithLabels.map(item => item.label);

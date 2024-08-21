@@ -168,6 +168,9 @@ canvas {
         });
 
         function updateChartData(values) {
+            if (!values || !Array.isArray(values) || values.length === 0) {
+        values = Array(initialData.labels.length).fill(0.0); // Tüm değerleri 0.0 olarak ayarla
+    }
     if (Array.isArray(values)) {
         // Verileri ve etiketleri belirlenen sıraya göre ayarlayın
         const dataWithLabels = initialData.labels.map((label, index) => {

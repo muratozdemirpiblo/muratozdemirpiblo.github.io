@@ -188,9 +188,11 @@ canvas {
         // Yan taraftaki listeyi değerlere göre descending sıralayarak güncelle
         const sortedDataWithLabels = [...dataWithLabels].sort((a, b) => b.value - a.value);
 
+        const top7DataWithLabels = sortedDataWithLabels.slice(0, 7);
+
         const expenseList = document.getElementById('expense-list');
         expenseList.innerHTML = '';
-        sortedDataWithLabels.forEach(item => {
+        top7DataWithLabels.forEach(item => {
             if (item.value !== "0.0") { // 0.0 değerlerini filtrele
                 const listItem = document.createElement('li');
                 listItem.innerHTML = `
@@ -203,7 +205,6 @@ canvas {
                 expenseList.appendChild(listItem);
             }
         });
-
         function formatNumber(value) {
             if (value >= 1000000) {
                 return Math.floor(value / 1000000) + 'M';

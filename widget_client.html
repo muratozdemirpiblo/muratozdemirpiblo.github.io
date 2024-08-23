@@ -235,8 +235,10 @@ canvas {
 
         JFCustomWidget.subscribe("ready", function (msg) {
             //console.log("Ready:", msg);
-
+            
             JFCustomWidget.getFieldsValueByName(["number1", "number2", "raisingPurchase204", "managingMaverick205", "purchaseOrder206"], function (res) {
+                console.log(res.data);
+
                 const values = [
                     parseFloat(res.data[0]),
                     parseFloat(res.data[1]),

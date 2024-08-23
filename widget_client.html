@@ -238,11 +238,11 @@ canvas {
 
             JFCustomWidget.getFieldsValueByName(["number1", "number2", "raisingPurchase204", "managingMaverick205", "purchaseOrder206"], function (res) {
                 const values = [
-                    parseFloat(res.data[0].value.toFixed(1)),
-                    parseFloat(res.data[1].value.toFixed(1)),
-                    parseFloat(res.data[2].value.toFixed(1)),
-                    parseFloat(res.data[3].value.toFixed(1)),
-                    parseFloat(res.data[4].value.toFixed(1))
+                    parseFloat(res.data[0]),
+                    parseFloat(res.data[1]),
+                    parseFloat(res.data[2]),
+                    parseFloat(res.data[3]),
+                    parseFloat(res.data[4])
                 ];
                 //console.log("Field values:", values);
 

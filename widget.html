@@ -168,13 +168,18 @@ canvas {
         });
 
         function updateChartData(values) {
-            
     if (Array.isArray(values)) {
+        // İlk 10 elemanın hepsi 0 mı kontrol et
+        const isAllZeros = values.slice(0, 10).every(value => value === 0);
+
+        // Eğer hepsi 0 ise sadece belirli indekslerdeki elemanları göster
+        const indicesToShow = isAllZeros ? [0, 2, 3, 5, 6] : Array.from(Array(values.length).keys());
+
         // Verileri ve etiketleri belirlenen sıraya göre ayarlayın
-        const dataWithLabels = initialData.labels.map((label, index) => {
+        const dataWithLabels = indicesToShow.map(index => {
             const value = isNaN(values[index]) ? 0.0 : values[index].toFixed(1); // NaN kontrolü
             return {
-                label: label,
+                label: initialData.labels[index],
                 value: value,
                 color: initialData.datasets[0].backgroundColor[index]
             };
@@ -205,6 +210,7 @@ canvas {
                 expenseList.appendChild(listItem);
             }
         });
+
         function formatNumber(value) {
             if (value >= 1000000) {
                 return Math.floor(value / 1000000) + 'M';

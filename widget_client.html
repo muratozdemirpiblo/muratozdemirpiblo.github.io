@@ -101,8 +101,7 @@ canvas {
 
         const initialData = {
                 labels: ["Raising Purchase Orders", "Managing Maverick spend & Spend leakage","Purchase Order approvals",
-                    "Management of supplier and purchase invoices","Coding invoice processes","Finance query management and dashboard reporting",
-                    "Debt collection administration processes","Customer Invoicing & Finance Workflow Management","Online expense management","IT finance systems"],
+                    "Management of supplier and purchase invoices","Coding invoice processes"],
             
                 datasets: [
                 {
@@ -112,12 +111,7 @@ canvas {
                         '#1078CF',
                         '#F6911E',
                         '#616173',
-                        '#F37721',
-                        '#FCB415',
-                        '#2D4FB2',
-                        '#40404C',
-                        '#4C9ADB',
-                        '#A4A4B2'
+                        '#F37721'
                     ],
                 },
             ],
@@ -244,16 +238,11 @@ canvas {
 
             JFCustomWidget.getFieldsValueByName(["number1", "number2", "raisingPurchase204", "managingMaverick205", "purchaseOrder206"], function (res) {
                 const values = [
-                    parseFloat(res.data[0].value.toFixed(1)),
-                    parseFloat(res.data[1].value.toFixed(1)),
-                    parseFloat(res.data[2].value.toFixed(1)),
-                    parseFloat(res.data[3].value.toFixed(1)),
-                    parseFloat(res.data[4].value.toFixed(1)),
-                    parseFloat(res.data[5].value.toFixed(1)),
-                    parseFloat(res.data[6].value.toFixed(1)),
-                    parseFloat(res.data[7].value.toFixed(1)),
-                    parseFloat(res.data[8].value.toFixed(1)),
-                    parseFloat(res.data[9].value.toFixed(1))
+                    parseFloat(res.data[0]),
+                    parseFloat(res.data[1]),
+                    parseFloat(res.data[2]),
+                    parseFloat(res.data[3]),
+                    parseFloat(res.data[4])
                 ];
                 //console.log("Field values:", values);
 

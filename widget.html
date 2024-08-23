@@ -8,7 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.2.0/dist/chart.min.js"></script>
     <script>
         function onLoadCallback() {
-            console.log("JotForm Custom Widget loaded.");
+            //console.log("JotForm Custom Widget loaded.");
         }
 
         (function () {
@@ -221,7 +221,6 @@ canvas {
             maximumFractionDigits: 0
         }).format(Math.round(total));
 
-        console.log(formatNumber(formattedTotal));
 
         myDoughnutChart.hoveredValue = "£ " + formatNumber(total);
         myDoughnutChart.hoveredColor = initialData.datasets[0].backgroundColor[0];
@@ -233,15 +232,15 @@ canvas {
 }
 
         JFCustomWidget.subscribe('populate', function (data) {
-            console.log(data);
+            //console.log(data);
             const newData = data.value.split(',').map(value => parseFloat(value.trim()));
-            console.log("Processed Data:", newData);
+            //console.log("Processed Data:", newData);
 
             updateChartData(newData);
         });
 
         JFCustomWidget.subscribe("ready", function (msg) {
-            console.log("Ready:", msg);
+            //console.log("Ready:", msg);
 
             JFCustomWidget.getFieldsValueByName(["number1", "number2", "raisingPurchase204", "managingMaverick205", "purchaseOrder206"], function (res) {
                 const values = [
@@ -256,7 +255,7 @@ canvas {
                     parseFloat(res.data[8].value.toFixed(1)),
                     parseFloat(res.data[9].value.toFixed(1))
                 ];
-                console.log("Field values:", values);
+                //console.log("Field values:", values);
 
                 updateChartData(values);
             });

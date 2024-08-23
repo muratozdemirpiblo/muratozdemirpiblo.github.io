@@ -8,7 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.2.0/dist/chart.min.js"></script>
     <script type="text/javascript">
         function onLoadCallback() {
-            console.log("JotForm Custom Widget loaded.");
+            //console.log("JotForm Custom Widget loaded.");
         }
 
         (function () {
@@ -90,22 +90,22 @@
         }
 
         JFCustomWidget.subscribe('populate', function (data) {
-            console.log(data);
+            //console.log(data);
             const newData = data.value.split(',').map(value => value.trim());
-            console.log("Processed Data:", newData);
+            //console.log("Processed Data:", newData);
 
             const values = newData.map(value => parseFloat(value));
-            console.log("Parsed Values:", values);
+            //console.log("Parsed Values:", values);
 
             updateChartData(values);
         });
 
         JFCustomWidget.subscribe("ready", function (msg) {
-            console.log("Ready:", msg);
+            //console.log("Ready:", msg);
 
             JFCustomWidget.getFieldsValueByName(["number1", "number2", "number3", "number4", "number5", "number6", "number7", "number8","number9","number10"], function (res) {
                 const values = res.data.map(field => parseFloat(field.value.trim()));
-                console.log("Field values:", values);
+                //console.log("Field values:", values);
 
                 updateChartData(values);
             });

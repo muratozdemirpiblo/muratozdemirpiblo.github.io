@@ -8,7 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.2.0/dist/chart.min.js"></script>
     <script>
         function onLoadCallback() {
-            console.log("JotForm Custom Widget loaded.");
+            //console.log("JotForm Custom Widget loaded.");
         }
 
         (function () {
@@ -100,19 +100,18 @@ canvas {
         const ctx = document.getElementById('myDoughnutChart').getContext('2d');
 
         const initialData = {
-                labels: ["Raising Purchase Orders", "Purchase Order approvals",
-                    "Management of supplier and purchase invoices","Finance query management and dashboard reporting",
-                    "Debt collection administration processes"],
+                labels: ["Raising Purchase Orders", "Managing Maverick spend & Spend leakage","Purchase Order approvals",
+                    "Management of supplier and purchase invoices","Coding invoice processes"],
             
                 datasets: [
                 {
                     data: [0, 100], // Başlangıçta 0 yatırım ve 100 kâr olarak ayarlıyoruz
                     backgroundColor: [
                         '#F15D23',
+                        '#1078CF',
                         '#F6911E',
                         '#616173',
-                        '#FCB415',
-                        '#2D4FB2'
+                        '#F37721'
                     ],
                 },
             ],
@@ -216,7 +215,6 @@ canvas {
             maximumFractionDigits: 0
         }).format(Math.round(total));
 
-        console.log(formatNumber(formattedTotal));
 
         myDoughnutChart.hoveredValue = "£ " + formatNumber(total);
         myDoughnutChart.hoveredColor = initialData.datasets[0].backgroundColor[0];
@@ -228,28 +226,29 @@ canvas {
 }
 
         JFCustomWidget.subscribe('populate', function (data) {
-            console.log(data);
+            //console.log(data);
             const newData = data.value.split(',').map(value => parseFloat(value.trim()));
-            console.log("Processed Data:", newData);
+            //console.log("Processed Data:", newData);
 
             updateChartData(newData);
         });
 
-        
-        JFCustomWidget.getFieldsValueByName(["number1", "number2", "raisingPurchase204", "managingMaverick205", "purchaseOrder206"], function (res) {
-    const values = [
-        parseFloat(res.data[0]?.value || 0).toFixed(1),
-        parseFloat(res.data[1]?.value || 0).toFixed(1),
-        parseFloat(res.data[2]?.value || 0).toFixed(1),
-        parseFloat(res.data[3]?.value || 0).toFixed(1),
-        parseFloat(res.data[4]?.value || 0).toFixed(1)
-    ];
-    console.log("Field values:", values);
+        JFCustomWidget.subscribe("ready", function (msg) {
+            //console.log("Ready:", msg);
 
-    updateChartData(values);
-});
+            JFCustomWidget.getFieldsValueByName(["number1", "number2", "raisingPurchase204", "managingMaverick205", "purchaseOrder206"], function (res) {
+                const values = [
+                    parseFloat(res.data[0].value.toFixed(1)),
+                    parseFloat(res.data[1].value.toFixed(1)),
+                    parseFloat(res.data[2].value.toFixed(1)),
+                    parseFloat(res.data[3].value.toFixed(1)),
+                    parseFloat(res.data[4].value.toFixed(1))
+                ];
+                //console.log("Field values:", values);
 
-
+                updateChartData(values);
+            });
+        });
 
         JFCustomWidget.subscribe("submit", function (msg) {
             var imageData = myDoughnutChart.toBase64Image();

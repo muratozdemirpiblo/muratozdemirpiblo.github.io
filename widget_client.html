@@ -229,7 +229,7 @@ canvas {
         JFCustomWidget.subscribe('populate', function (data) {
             //console.log(data);
             const newData = data.value.split(',').map(value => parseFloat(value.trim()));
-            //console.log("Processed Data:", newData);
+            console.log("Processed Data:", newData);
 
             updateChartData(newData);
         });

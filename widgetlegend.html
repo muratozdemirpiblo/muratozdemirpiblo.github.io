@@ -18,77 +18,38 @@
         })();
     </script>
     <style>
-        #container {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
+         #container {
             gap: 20px;
             height: auto;
             min-height: 100px;
         }
 
         #chart-container, #data-container {
-            width: 50%;
+            width: 75%;
             height: auto;
-            display: flex;
-            flex-direction: column;
             justify-content: center;
         }
 
-        #data-container ul {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-            height: auto;
-        }
-
-        #data-container li {
-            margin-bottom: 10px;
-        }
-
-        .legend-container {
+        #legend-container {
             display: flex;
-            justify-content: center;
-            gap: 40px;
-            margin-top: 20px;
-        }
-
-        .legend-column {
-            display: flex;
-            flex-direction: column;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            width: 100%;
+            margin-top: 3em;
         }
 
         .legend-item {
+            width: 48%;
             display: flex;
             align-items: center;
-            margin-bottom: 5px;
+            margin-bottom: 10px;
         }
 
         .legend-color-box {
-            width: 15px;
-            height: 15px;
+            width: 20px;
+            height: 20px;
             margin-right: 10px;
-        }
-
-        .percentage {
-            font-size: 1.3em;
-            font-weight: bold;
-            min-width: 3.2em;
-            color: #333;
-        }
-
-        .title {
-            font-size: 0.9em;
-            font-weight: 300;
-            color: #25252C;
-            text-transform: uppercase;
-        }
-
-        .divider-line {
-            margin-top: 1em;
-            width: 100%;
-            background-color: #25252C;
-            height: 1px;
+            border-radius: 0.5em;
         }
 
         canvas {
@@ -152,29 +113,7 @@
                     }
                 },
             },
-            plugins: [{
-                id: 'text',
-                beforeDraw: function (chart) {
-                    var width = chart.width,
-                        height = chart.height,
-                        ctx = chart.ctx;
-
-                    ctx.restore();
-                    var fontSize = (height / 150).toFixed(2);
-                    ctx.font = fontSize + "em sans-serif";
-                    ctx.textBaseline = "middle";
-
-                    var text = chart.hoveredValue || initialData.datasets[0].data[1];
-                    var color = chart.hoveredColor || initialData.datasets[0].backgroundColor[0];
-
-                    ctx.fillStyle = color;
-                    var textX = Math.round((width - ctx.measureText(text).width) / 2),
-                        textY = height / 2;
-
-                    ctx.fillText(text, textX, textY);
-                    ctx.save();
-                }
-            }]
+            plugins: []
         });
 
         function updateChartData(values) {

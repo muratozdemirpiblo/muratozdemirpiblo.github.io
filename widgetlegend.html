@@ -47,11 +47,12 @@
         }
 
         .legend-color-box {
-            width: 1em;
-            height: 1em;
-            margin-right: 10px;
-            border-radius: 60em;
-        }
+    width: 1em;            /* Genişlik ve yükseklik em biriminde tanımlandı, böylece font boyutuna göre ölçeklenir */
+    height: 1em;           /* Responsive olması için aynı birimde yükseklik ayarlanır */
+    margin-right: 10px;
+    border-radius: 50%;    /* Daire şeklinde yapmak için border-radius %50 olarak ayarlandı */
+    flex-shrink: 0;        /* Küçülmeye karşı sabit boyut koruması */
+}
 
         canvas {
             max-width: 100%;

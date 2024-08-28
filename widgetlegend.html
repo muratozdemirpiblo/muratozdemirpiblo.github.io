@@ -105,12 +105,19 @@
                         display: false
                     },
                     tooltip: {
-                        callbacks: {
-                            label: function (tooltipItem) {
-                                return tooltipItem.label + ': ' + tooltipItem.raw + '%';
-                            }
-                        }
-                    }
+    callbacks: {
+        label: function (tooltipItem) {
+            let sum = 0;
+            let dataArr = tooltipItem.dataset.data;
+            dataArr.map(data => {
+                sum += Number(data);
+            });
+            let percentage = (tooltipItem.raw / sum * 100).toFixed(1) + '%';
+            return tooltipItem.label + ': ' + percentage;
+        }
+    }
+}
+
                 },
             },
             plugins: []

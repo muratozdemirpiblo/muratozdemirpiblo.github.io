@@ -127,6 +127,8 @@
                     ctx.font = fontSize + "em sans-serif";
                     ctx.textBaseline = "middle";
 
+                    var text = "";
+                    var color = chart.hoveredColor || initialData.datasets[0].backgroundColor[0];
 
                     ctx.fillStyle = color;
                     var textX = Math.round((width - ctx.measureText(text).width) / 2),

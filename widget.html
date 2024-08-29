@@ -232,9 +232,9 @@ canvas {
 }
 
         JFCustomWidget.subscribe('populate', function (data) {
-            console.log(data);
+            //console.log(data);
             const newData = data.value.split(',').map(value => parseFloat(value.trim()));
-            console.log("Processed Data:", newData);
+            //console.log("Processed Data:", newData);
 
             updateChartData(newData);
         });
@@ -255,7 +255,7 @@ canvas {
                     parseFloat(res.data[8].value.toFixed(1)),
                     parseFloat(res.data[9].value.toFixed(1))
                 ];
-                console.log("Field values:", values);
+                //console.log("Field values:", values);
 
                 updateChartData(values);
             });

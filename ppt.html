@@ -16,7 +16,7 @@
         document.getElementById('createPpt').addEventListener('click', function() {
             // Yeni bir PowerPoint sunumu oluştur
             let pptx = new PptxGenJS();
-            pptx.setLayout('LAYOUT_WIDE');
+            pptx.layout = "LAYOUT_WIDE";
             // İlk slaytı ekle
             let slide = pptx.addSlide();
             

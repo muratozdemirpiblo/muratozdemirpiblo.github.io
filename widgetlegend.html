@@ -151,42 +151,46 @@
             }
         }
 
+     
         function updateLegend(dataWithLabels) {
-            const legendContainer = document.getElementById('legend');
-            legendContainer.innerHTML = '';
+    const legendContainer = document.getElementById('legend');
+    legendContainer.innerHTML = '';
 
-            const column1 = document.createElement('div');
-            column1.className = 'legend-column';
-            const column2 = document.createElement('div');
-            column2.className = 'legend-column';
+    const column1 = document.createElement('div');
+    column1.className = 'legend-column';
+    const column2 = document.createElement('div');
+    column2.className = 'legend-column';
 
-            dataWithLabels.forEach((item, index) => {
-                const legendItem = document.createElement('div');
-                legendItem.className = 'legend-item';
+    dataWithLabels.forEach((item, index) => {
+        if (item.value > 0) {  // Değer sıfırdan büyükse legend öğesi oluşturulacak
+            const legendItem = document.createElement('div');
+            legendItem.className = 'legend-item';
 
-                const colorBox = document.createElement('div');
-                colorBox.className = 'legend-color-box';
-                colorBox.style.backgroundColor = item.color;
+            const colorBox = document.createElement('div');
+            colorBox.className = 'legend-color-box';
+            colorBox.style.backgroundColor = item.color;
 
-                const textLabel = document.createElement('span');
-                textLabel.textContent = item.label;
-                textLabel.style.fontSize = '0.9em'; 
-                textLabel.style.fontWeight = 400;
+            const textLabel = document.createElement('span');
+            textLabel.textContent = item.label;
+            textLabel.style.fontSize = '0.9em';
+            textLabel.style.fontWeight = 400;
 
-                legendItem.appendChild(colorBox);
-                legendItem.appendChild(textLabel);
+            legendItem.appendChild(colorBox);
+            legendItem.appendChild(textLabel);
 
-                if (index < 5) {
-                    column1.appendChild(legendItem);
-                } else {
-                    column2.appendChild(legendItem);
-                }
-            });
-
-            legendContainer.appendChild(column1);
-            legendContainer.appendChild(column2);
+            if (index < 5) {
+                column1.appendChild(legendItem);
+            } else {
+                column2.appendChild(legendItem);
+            }
         }
+    });
 
+    legendContainer.appendChild(column1);
+    legendContainer.appendChild(column2);
+}
+
+     
         JFCustomWidget.subscribe('populate', function (data) {
             const newData = data.value.split(',').map(value => parseFloat(value.trim()));
 

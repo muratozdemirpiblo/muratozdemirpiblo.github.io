@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PowerPoint Sunumu Oluştur</title>
+    <!-- PptxGenJS Kütüphanesi -->
+    <script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.6.0/dist/pptxgen.bundle.js"></script>
+</head>
+<body>
+
+    <h1>PowerPoint Sunumu Oluşturma</h1>
+    <button id="createPpt">Sunum Oluştur</button>
+
+    <script>
+        document.getElementById('createPpt').addEventListener('click', function() {
+            // Yeni bir PowerPoint sunumu oluştur
+            let pptx = new PptxGenJS();
+
+            // İlk slaytı ekle
+            let slide = pptx.addSlide();
+
+            // Slayta başlık ekle
+            slide.addText("Başlık", { 
+                x: 1.5, 
+                y: 1, 
+                fontSize: 24, 
+                color: "000000", 
+                bold: true 
+            });
+
+            // Slayta alt başlık ekle
+            slide.addText("Alt Başlık", { 
+                x: 1.5, 
+                y: 1.5, 
+                fontSize: 18, 
+                color: "333333" 
+            });
+
+            // Görsel eklemek isterseniz
+            /*
+            slide.addImage({
+                path: "path/to/image.jpg",
+                x: 1.5,
+                y: 2,
+                w: 6,
+                h: 3,
+            });
+            */
+
+            // Sunumu oluştur ve indir
+            pptx.writeFile("ÖrnekSunum.pptx");
+        });
+    </script>
+
+</body>
+</html>

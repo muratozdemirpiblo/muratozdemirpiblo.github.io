@@ -183,7 +183,7 @@ canvas {
         // Yan taraftaki listeyi değerlere göre descending sıralayarak güncelle
         const sortedDataWithLabels = [...dataWithLabels].sort((a, b) => b.value - a.value);
 
-        const top7DataWithLabels = sortedDataWithLabels.slice(0, 5);
+        const top7DataWithLabels = sortedDataWithLabels.slice(0, 6);
 
         const expenseList = document.getElementById('expense-list');
         expenseList.innerHTML = '';

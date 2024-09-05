@@ -188,7 +188,7 @@ canvas {
         const expenseList = document.getElementById('expense-list');
         expenseList.innerHTML = '';
         top7DataWithLabels.forEach(item => {
-            if (item.value !== "0.0") { // 0.0 değerlerini filtrele
+            if (item.value !== "0") { // 0.0 değerlerini filtrele
                 const listItem = document.createElement('li');
                 listItem.innerHTML = `
                     <div class="expense-management">

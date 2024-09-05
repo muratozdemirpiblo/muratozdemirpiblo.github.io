@@ -147,6 +147,7 @@
 
                 myDoughnutChart.update();
                 updateLegend(dataWithLabels);
+                return dataWithLabels;
             } else {
                 console.error("Invalid data for chart:", values);
             }
@@ -195,7 +196,8 @@
         JFCustomWidget.subscribe('populate', function (data) {
             const newData = data.value.split(',').map(value => parseFloat(value.trim()));
 
-            updateChartData(newData);
+            const dataWithLabels = updateChartData(newData);
+    updateLegend(dataWithLabels);
             updateLegend(dataWithLabels);
         });
 

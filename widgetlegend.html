@@ -137,6 +137,8 @@
                     };
                 });
 
+                console.log(values);
+
                 myDoughnutChart.data.labels = dataWithLabels.map(item => item.label);
                 myDoughnutChart.data.datasets[0].data = dataWithLabels.map(item => item.value);
                 myDoughnutChart.data.datasets[0].backgroundColor = dataWithLabels.map(item => item.color);
@@ -195,7 +197,7 @@
      
         JFCustomWidget.subscribe('populate', function (data) {
             const newData = data.value.split(',').map(value => parseFloat(value.trim()));
-
+            console.log(newData);
             const dataWithLabels = updateChartData(newData);
     updateLegend(dataWithLabels);
             updateLegend(dataWithLabels);
@@ -215,7 +217,7 @@
                     parseFloat(res.data[8].value.toFixed(1)),
                     parseFloat(res.data[9].value.toFixed(1))
                 ];
-                console.log(values);
+                
                 updateChartData(values);
                 updateLegend(dataWithLabels);
             });

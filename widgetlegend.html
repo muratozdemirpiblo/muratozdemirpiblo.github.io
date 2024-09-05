@@ -196,6 +196,7 @@
             const newData = data.value.split(',').map(value => parseFloat(value.trim()));
 
             updateChartData(newData);
+            updateLegend(dataWithLabels);
         });
 
         JFCustomWidget.subscribe("ready", function (msg) {
@@ -214,6 +215,7 @@
                 ];
 
                 updateChartData(values);
+                updateLegend(dataWithLabels);
             });
         });
 

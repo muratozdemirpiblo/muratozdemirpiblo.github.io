@@ -159,6 +159,8 @@ canvas {
             }]
         });
 
+     
+
         function updateChartData(values) {
     console.log(values);
     
@@ -179,14 +181,22 @@ canvas {
         myDoughnutChart.data.datasets[0].data = dataWithLabels.map(item => item.value);
         myDoughnutChart.data.datasets[0].backgroundColor = dataWithLabels.map(item => item.color);
 
-        // Yan taraftaki listeyi değerlere göre descending sıralayarak güncelle
-        const sortedDataWithLabels = [...dataWithLabels].sort((a, b) => b.value - a.value);
+        // Tüm değerlerin 0 olup olmadığını kontrol et
+        const allZero = dataWithLabels.every(item => item.value === 0);
 
-        const top7DataWithLabels = sortedDataWithLabels.slice(0, 3);
+        // Yan taraftaki listeyi değerlere göre descending sıralayarak güncelle
+        let sortedDataWithLabels = [...dataWithLabels].sort((a, b) => b.value - a.value);
+
+        if (!allZero) {
+            // Tüm değerler 0 değilse, 0 olanları gizle
+            sortedDataWithLabels = sortedDataWithLabels.filter(item => item.value !== 0);
+        }
+
+        const top3DataWithLabels = sortedDataWithLabels.slice(0, 3);
 
         const expenseList = document.getElementById('expense-list');
         expenseList.innerHTML = '';
-        top7DataWithLabels.forEach(item => {
+        top3DataWithLabels.forEach(item => {
             const listItem = document.createElement('li');
             listItem.innerHTML = `
                 <div class="expense-management">

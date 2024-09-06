@@ -165,10 +165,11 @@ canvas {
     if (Array.isArray(values)) {
         // Verileri ve etiketleri belirlenen sıraya göre ayarlayın
         const dataWithLabels = initialData.labels.map((label, index) => {
-            const value = isNaN(values[index]) ? 0 : parseInt(values[index]); // NaN kontrolü ve 0.0 yerine 0 gösterimi
+            const value = isNaN(values[index]) ? 0 : parseFloat(values[index]);
+            const formattedValue = value === 0 ? 0 : value.toFixed(1); // 0 ise decimal olmadan, değilse 1 decimalli göster
             return {
                 label: label,
-                value: value,
+                value: formattedValue,
                 color: initialData.datasets[0].backgroundColor[index]
             };
         });
@@ -186,19 +187,17 @@ canvas {
         const expenseList = document.getElementById('expense-list');
         expenseList.innerHTML = '';
         top7DataWithLabels.forEach(item => {
-            if (item.value !== 0) { // 0 değerlerini filtrele
-                const listItem = document.createElement('li');
-                listItem.innerHTML = `
-                    <div class="expense-management">
-                        <div class="percentage" style="color: ${item.color};">${item.value}%</div>
-                        <div class="title">${item.label}</div>
-                    </div>
-                    <div class="divider-line"></div>
-                `;
-                expenseList.appendChild(listItem);
-            }
+            const listItem = document.createElement('li');
+            listItem.innerHTML = `
+                <div class="expense-management">
+                    <div class="percentage" style="color: ${item.color};">${item.value}%</div>
+                    <div class="title">${item.label}</div>
+                </div>
+                <div class="divider-line"></div>
+            `;
+            expenseList.appendChild(listItem);
         });
-        
+
         function formatNumber(value) {
             if (value >= 1000000) {
                 return Math.floor(value / 1000000) + 'M';

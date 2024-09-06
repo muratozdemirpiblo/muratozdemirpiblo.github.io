@@ -160,12 +160,12 @@ canvas {
         });
 
         function updateChartData(values) {
-            console.log(values);
-            
+    console.log(values);
+    
     if (Array.isArray(values)) {
         // Verileri ve etiketleri belirlenen sıraya göre ayarlayın
         const dataWithLabels = initialData.labels.map((label, index) => {
-            const value = isNaN(values[index]) ? 0.0 : values[index].toFixed(1); // NaN kontrolü
+            const value = isNaN(values[index]) ? 0 : parseInt(values[index]); // NaN kontrolü ve 0.0 yerine 0 gösterimi
             return {
                 label: label,
                 value: value,
@@ -186,7 +186,7 @@ canvas {
         const expenseList = document.getElementById('expense-list');
         expenseList.innerHTML = '';
         top7DataWithLabels.forEach(item => {
-            if (item.value !== "0") { // 0.0 değerlerini filtrele
+            if (item.value !== 0) { // 0 değerlerini filtrele
                 const listItem = document.createElement('li');
                 listItem.innerHTML = `
                     <div class="expense-management">
@@ -198,6 +198,7 @@ canvas {
                 expenseList.appendChild(listItem);
             }
         });
+        
         function formatNumber(value) {
             if (value >= 1000000) {
                 return Math.floor(value / 1000000) + 'M';
@@ -214,7 +215,6 @@ canvas {
             maximumFractionDigits: 0
         }).format(Math.round(total));
 
-
         myDoughnutChart.hoveredValue = "£ " + formatNumber(total);
         myDoughnutChart.hoveredColor = initialData.datasets[0].backgroundColor[0];
 
@@ -224,7 +224,8 @@ canvas {
     }
 }
 
-        JFCustomWidget.subscribe('populate', function (data) {
+
+JFCustomWidget.subscribe('populate', function (data) {
             console.log(data);
             const newData = data.value.split(',').map(value => parseFloat(value.trim()));
             console.log("Processed Data:", newData);

@@ -47,12 +47,12 @@
         }
 
         .legend-color-box {
-    width: 1em;            /* Genişlik ve yükseklik em biriminde tanımlandı, böylece font boyutuna göre ölçeklenir */
-    height: 1em;           /* Responsive olması için aynı birimde yükseklik ayarlanır */
-    margin-right: 10px;
-    border-radius: 50%;    /* Daire şeklinde yapmak için border-radius %50 olarak ayarlandı */
-    flex-shrink: 0;        /* Küçülmeye karşı sabit boyut koruması */
-}
+            width: 1em;
+            height: 1em;
+            margin-right: 10px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
 
         canvas {
             max-width: 100%;
@@ -66,20 +66,19 @@
         <div id="chart-container">
             <canvas id="myDoughnutChart"></canvas>
             <div id="legend" class="legend-container" style="display: flex; margin-top: 5em;"></div> <!-- Legend eklendi -->
-        
+        </div>
     </div>
 
     <script>
         const ctx = document.getElementById('myDoughnutChart').getContext('2d');
 
         const initialData = {
-            labels: ["Raising Purchase Orders", "Purchase Order approvals","Coding invoice processes","Management of supplier and purchase invoices","Managing Maverick spend & Spend leakage", 
-                  "Finance query management and dashboard reporting",
-                "Debt collection administration processes", "Customer Invoicing & Finance Workflow Management", "Online expense management", "IT finance systems"],
+            labels: ["Raising Purchase Orders", "Purchase Order approvals", "Coding invoice processes", "Management of supplier and purchase invoices", "Managing Maverick spend & Spend leakage",
+                "Finance query management and dashboard reporting", "Debt collection administration processes", "Customer Invoicing & Finance Workflow Management", "Online expense management", "IT finance systems"],
 
             datasets: [
                 {
-                    data: [0, 0], // Başlangıçta 0 yatırım ve 100 kâr olarak ayarlıyoruz
+                    data: [0, 0],
                     backgroundColor: [
                         '#F15D23',
                         '#1078CF',
@@ -107,106 +106,99 @@
                         display: false
                     },
                     tooltip: {
-    callbacks: {
-        label: function (tooltipItem) {
-            let sum = 0;
-            let dataArr = tooltipItem.dataset.data;
-            dataArr.map(data => {
-                sum += Number(data);
-            });
-            let percentage = (tooltipItem.raw / sum * 100).toFixed(1) + '%';
-            return tooltipItem.label + ': ' + percentage;
-        }
-    }
-}
-
+                        callbacks: {
+                            label: function (tooltipItem) {
+                                let sum = 0;
+                                let dataArr = tooltipItem.dataset.data;
+                                dataArr.map(data => {
+                                    sum += Number(data);
+                                });
+                                let percentage = (tooltipItem.raw / sum * 100).toFixed(1) + '%';
+                                return tooltipItem.label + ': ' + percentage;
+                            }
+                        }
+                    }
                 },
             },
             plugins: []
         });
 
         function updateChartData(values) {
-    console.log("start");
+            console.log("start");
 
-    if (Array.isArray(values)) {
-        const dataWithLabels = initialData.labels.map((label, index) => {
-            let value = isNaN(values[index]) ? 0.0 : values[index];
-            
-            // Negatif değerleri sıfıra ayarlıyoruz
-            if (value < 0) {
-                value = 0.0;
-            }
+            if (Array.isArray(values)) {
+                const dataWithLabels = initialData.labels.map((label, index) => {
+                    let value = isNaN(values[index]) ? 0.0 : values[index];
 
-            return {
-                label: label,
-                value: value.toFixed(1),
-                color: initialData.datasets[0].backgroundColor[index]
-            };
-        });
+                    // Negatif değerleri sıfıra ayarlıyoruz
+                    if (value < 0) {
+                        value = 0.0;
+                    }
 
-        console.log(values);
+                    return {
+                        label: label,
+                        value: value.toFixed(1),
+                        color: initialData.datasets[0].backgroundColor[index]
+                    };
+                }).filter(item => item.value > 0); // Sadece 0'dan büyük değerleri filtrele
 
-        myDoughnutChart.data.labels = dataWithLabels.map(item => item.label);
-        myDoughnutChart.data.datasets[0].data = dataWithLabels.map(item => item.value);
-        myDoughnutChart.data.datasets[0].backgroundColor = dataWithLabels.map(item => item.color);
+                console.log(values);
 
-        myDoughnutChart.hoveredColor = initialData.datasets[0].backgroundColor[0];
+                myDoughnutChart.data.labels = dataWithLabels.map(item => item.label);
+                myDoughnutChart.data.datasets[0].data = dataWithLabels.map(item => item.value);
+                myDoughnutChart.data.datasets[0].backgroundColor = dataWithLabels.map(item => item.color);
 
-        updateLegend(dataWithLabels);
+                myDoughnutChart.hoveredColor = initialData.datasets[0].backgroundColor[0];
 
-        myDoughnutChart.update();
-        return dataWithLabels;
-    } else {
-        console.error("Invalid data for chart:", values);
-    }
-}
+                updateLegend(dataWithLabels);
 
-
-
-        function updateLegend(dataWithLabels) {
-    const legendContainer = document.getElementById('legend');
-    legendContainer.innerHTML = '';
-
-    const column1 = document.createElement('div');
-    column1.className = 'legend-column';
-    const column2 = document.createElement('div');
-    column2.className = 'legend-column';
-
-    dataWithLabels.forEach((item, index) => {
-        if (item.value > 0) {  // Değer sıfırdan büyükse legend öğesi oluşturulacak
-            const legendItem = document.createElement('div');
-            legendItem.className = 'legend-item';
-
-            const colorBox = document.createElement('div');
-            colorBox.className = 'legend-color-box';
-            colorBox.style.backgroundColor = item.color;
-
-            const textLabel = document.createElement('span');
-            textLabel.textContent = item.label;
-            textLabel.style.fontSize = '0.9em';
-            textLabel.style.fontWeight = 400;
-
-            legendItem.appendChild(colorBox);
-            legendItem.appendChild(textLabel);
-
-            if (index < 5) {
-                column1.appendChild(legendItem);
+                myDoughnutChart.update();
+                return dataWithLabels;
             } else {
-                column2.appendChild(legendItem);
+                console.error("Invalid data for chart:", values);
             }
         }
-    });
 
-    legendContainer.appendChild(column1);
-    legendContainer.appendChild(column2);
-}
+        function updateLegend(dataWithLabels) {
+            const legendContainer = document.getElementById('legend');
+            legendContainer.innerHTML = '';
 
-     
+            const column1 = document.createElement('div');
+            column1.className = 'legend-column';
+            const column2 = document.createElement('div');
+            column2.className = 'legend-column';
+
+            dataWithLabels.forEach((item, index) => {
+                const legendItem = document.createElement('div');
+                legendItem.className = 'legend-item';
+
+                const colorBox = document.createElement('div');
+                colorBox.className = 'legend-color-box';
+                colorBox.style.backgroundColor = item.color;
+
+                const textLabel = document.createElement('span');
+                textLabel.textContent = item.label;
+                textLabel.style.fontSize = '0.9em';
+                textLabel.style.fontWeight = 400;
+
+                legendItem.appendChild(colorBox);
+                legendItem.appendChild(textLabel);
+
+                if (index < 5) {
+                    column1.appendChild(legendItem);
+                } else {
+                    column2.appendChild(legendItem);
+                }
+            });
+
+            legendContainer.appendChild(column1);
+            legendContainer.appendChild(column2);
+        }
+
         JFCustomWidget.subscribe('populate', function (data) {
             const newData = data.value.split(',').map(value => parseFloat(value.trim()));
             console.log(newData);
             const dataWithLabels = updateChartData(newData);
-    updateLegend(dataWithLabels);
             updateLegend(dataWithLabels);
         });
 
@@ -224,8 +216,8 @@
                     parseFloat(res.data[8].value.toFixed(1)),
                     parseFloat(res.data[9].value.toFixed(1))
                 ];
-                
-                updateChartData(values);
+
+                const dataWithLabels = updateChartData(values);
                 updateLegend(dataWithLabels);
             });
         });

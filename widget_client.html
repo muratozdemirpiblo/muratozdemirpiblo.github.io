@@ -100,15 +100,13 @@ canvas {
         const ctx = document.getElementById('myDoughnutChart').getContext('2d');
 
         const initialData = {
-                labels: ["Raising Purchase Orders", "Purchase Order Approvals","Management of Supplier and Purchase Invoices",
+                labels: ["Management of Supplier and Purchase Invoices",
                     "Finance Query Management and Dashboard Reporting","Debt Collection Administration Processes"],
             
                 datasets: [
                 {
                     data: [0, 0], // Başlangıçta 0 yatırım ve 100 kâr olarak ayarlıyoruz
                     backgroundColor: [
-                        '#F15D23',
-                        '#1078CF',
                         '#F15D22',
                         '#616173',
                         '#F6911E'
@@ -243,9 +241,7 @@ canvas {
                 const values = [
                     parseFloat(res.data[0]),
                     parseFloat(res.data[1]),
-                    parseFloat(res.data[2]),
-                    parseFloat(res.data[3]),
-                    parseFloat(res.data[4])
+                    parseFloat(res.data[2])
                 ];
                 console.log("Field values:", values);
 

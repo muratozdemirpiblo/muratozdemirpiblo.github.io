@@ -260,7 +260,11 @@ JFCustomWidget.subscribe('populate', function (data) {
         });
 
         JFCustomWidget.subscribe("submit", function (msg) {
-            var imageData = myDoughnutChart.toBase64Image();
+    var imageData = myDoughnutChart.toBase64Image();
+
+    // Asenkron işlemin tamamlandığını garantiye almak için
+    return new Promise((resolve, reject) => {
+        try {
             var data2 = {
                 valid: true,
                 value: JFCustomWidgetUtils.buildMetadata(
@@ -271,8 +275,19 @@ JFCustomWidget.subscribe('populate', function (data) {
                     }]
                 )
             };
+
+            // Submit işlemi tamamlandıktan sonra resolve yaparak kanalı kapatıyoruz
             JFCustomWidget.sendSubmit(data2);
-        });
+            resolve(true); // Kanaldan başarılı çıkış yapılıyor.
+        } catch (error) {
+            console.error("Error in submit:", error);
+            reject(error); // Hata durumunda kanalı kapatıyoruz.
+        }
+    });
+});
+
+    
+    
     </script>
 </body>
 

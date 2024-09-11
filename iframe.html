@@ -8,18 +8,17 @@
 <body>
     <!-- Diğer içeriklerin -->
     
-    <!-- Rengini değiştirmek istediğin div -->
-    <div id="id_3" style="width: 200px; height: 200px; background-color: white;">
-        Bu divin rengi siyah olacak
-    </div>
+    
 
     <!-- Iframe -->
     <iframe src="your_iframe_source.html" width="500" height="500"></iframe>
 
     <script>
+        console.log("fff");
         window.onload = function() {
             var id3Div = window.parent.document.getElementById('header_1');
             if (id3Div) {
+                console.log("find");
                 id3Div.style.backgroundColor = 'black';  // Rengi siyah yap
             }
         };

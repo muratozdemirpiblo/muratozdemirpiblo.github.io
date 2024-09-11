@@ -204,8 +204,8 @@
             }
         }
 
-        // Tüm form elementleri yüklendikten sonra güncelleme yap
-        window.onload = function() {
+        // Widget hazır olduğunda ilk güncellemeyi yap
+        JFCustomWidget.subscribe("ready", function (msg) {
             if (!isUpdated) {
                 JFCustomWidget.getFieldsValueByName(["number1", "number2", "raisingPurchase204"], function (res) {
                     const values = [
@@ -220,7 +220,17 @@
                     isUpdated = true;  // Güncelleme yapıldıktan sonra bayrağı güncelle
                 });
             }
-        };
+        });
+
+        // Veri geldiğinde güncellemeyi yap
+        JFCustomWidget.subscribe("populate", function (data) {
+            if (!isUpdated) {
+                const newData = data.value.split(',').map(value => parseFloat(value.trim()));
+                updateChartData(newData);  // Yeni verilerle güncelle
+
+                isUpdated = true;  // Güncelleme yapıldıktan sonra bayrağı güncelle
+            }
+        });
 
         JFCustomWidget.subscribe("submit", function (msg) {
             var imageData = myDoughnutChart.toBase64Image();

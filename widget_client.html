@@ -19,68 +19,68 @@
     </script>
     <style>
         #container {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start; /* Container'ın yüksekliği içeriğe göre ayarlanacak */
-    gap: 20px;
-    height: auto; /* Yüksekliği otomatik olarak içeriğe göre ayarla */
-    min-height: 100px; /* Minimum yükseklik belirle (isteğe bağlı) */
-}
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 20px;
+            height: auto;
+            min-height: 100px;
+        }
 
-#chart-container, #data-container {
-    width: 50%;
-    height: auto; /* Yüksekliği otomatik olarak içeriğe göre ayarla */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
+        #chart-container, #data-container {
+            width: 50%;
+            height: auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
 
-#data-container ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-    height: auto; /* Yüksekliği otomatik olarak içeriğe göre ayarla */
-}
+        #data-container ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            height: auto;
+        }
 
-#data-container li {
-    margin-bottom: 10px;
-}
+        #data-container li {
+            margin-bottom: 10px;
+        }
 
-.expense-management {
-    display: flex;
-    align-items: center;
-    justify-content: start;
-    gap: 1em;
-    width: 100%;
-    background-color: #fff;
-    margin-top: 1em;
-}
+        .expense-management {
+            display: flex;
+            align-items: center;
+            justify-content: start;
+            gap: 1em;
+            width: 100%;
+            background-color: #fff;
+            margin-top: 1em;
+        }
 
-.percentage {
-    font-size: 1.3em;
-    font-weight: bold;
-    min-width: 3.2em;
-    color: #333;
-}
+        .percentage {
+            font-size: 1.3em;
+            font-weight: bold;
+            min-width: 3.2em;
+            color: #333;
+        }
 
-.title {
-    font-size: 0.9em;
-    font-weight: 300;
-    color: #25252C;
-    text-transform: uppercase;
-}
+        .title {
+            font-size: 0.9em;
+            font-weight: 300;
+            color: #25252C;
+            text-transform: uppercase;
+        }
 
-.divider-line {
-    margin-top: 1em;
-    width: 100%;
-    background-color: #25252C;
-    height: 1px;
-}
+        .divider-line {
+            margin-top: 1em;
+            width: 100%;
+            background-color: #25252C;
+            height: 1px;
+        }
 
-canvas {
-    max-width: 100%; /* Chart'ın genişliğini container'a göre ayarla */
-    height: auto; /* Yüksekliği otomatik olarak ayarla */
-}
+        canvas {
+            max-width: 100%;
+            height: auto;
+        }
     </style>
 </head>
 
@@ -96,23 +96,14 @@ canvas {
 
     <script>
 
-
         const ctx = document.getElementById('myDoughnutChart').getContext('2d');
 
         const initialData = {
-                labels: ["Management of Supplier and Purchase Invoices",
-                    "Finance Query Management and Dashboard Reporting","Debt Collection Administration Processes"],
-            
-                datasets: [
-                {
-                    data: [0, 0], // Başlangıçta 0 yatırım ve 100 kâr olarak ayarlıyoruz
-                    backgroundColor: [
-                        '#F15D22',
-                        '#616173',
-                        '#F6911E'
-                    ],
-                },
-            ],
+            labels: ["Management of Supplier and Purchase Invoices", "Finance Query Management and Dashboard Reporting", "Debt Collection Administration Processes"],
+            datasets: [{
+                data: [0, 0], // Başlangıçta 0 olarak ayarlıyoruz
+                backgroundColor: ['#F15D22', '#616173', '#F6911E'],
+            }],
         };
 
         const myDoughnutChart = new Chart(ctx, {
@@ -120,7 +111,7 @@ canvas {
             data: initialData,
             options: {
                 responsive: true,
-                cutout: '70%', // Orta kısmın boş olmasını sağlar
+                cutout: '70%',
                 plugins: {
                     legend: {
                         display: false
@@ -159,112 +150,90 @@ canvas {
             }]
         });
 
-     
+        let isUpdated = false;  // Tek seferlik güncelleme kontrolü için bayrak
 
         function updateChartData(values) {
-    console.log(values);
-    
-    if (Array.isArray(values)) {
-        // Verileri ve etiketleri belirlenen sıraya göre ayarlayın
-        const dataWithLabels = initialData.labels.map((label, index) => {
-            const value = isNaN(values[index]) ? 0 : parseFloat(values[index]);
-            const formattedValue = value === 0 ? 0 : value.toFixed(1); // 0 ise decimal olmadan, değilse 1 decimalli göster
-            return {
-                label: label,
-                value: formattedValue,
-                color: initialData.datasets[0].backgroundColor[index]
-            };
-        });
+            console.log(values);
 
-        // Donut chart ve listeyi güncelle
-        myDoughnutChart.data.labels = dataWithLabels.map(item => item.label);
-        myDoughnutChart.data.datasets[0].data = dataWithLabels.map(item => item.value);
-        myDoughnutChart.data.datasets[0].backgroundColor = dataWithLabels.map(item => item.color);
+            if (Array.isArray(values)) {
+                const dataWithLabels = initialData.labels.map((label, index) => {
+                    const value = isNaN(values[index]) ? 0 : parseFloat(values[index]);
+                    const formattedValue = value === 0 ? 0 : value.toFixed(1);
+                    return {
+                        label: label,
+                        value: formattedValue,
+                        color: initialData.datasets[0].backgroundColor[index]
+                    };
+                });
 
-        // Tüm değerlerin 0 olup olmadığını kontrol et
-        const allZero = dataWithLabels.every(item => item.value === 0);
+                myDoughnutChart.data.labels = dataWithLabels.map(item => item.label);
+                myDoughnutChart.data.datasets[0].data = dataWithLabels.map(item => item.value);
+                myDoughnutChart.data.datasets[0].backgroundColor = dataWithLabels.map(item => item.color);
 
-        // Yan taraftaki listeyi değerlere göre descending sıralayarak güncelle
-        let sortedDataWithLabels = [...dataWithLabels].sort((a, b) => b.value - a.value);
+                const allZero = dataWithLabels.every(item => item.value === 0);
 
-        if (!allZero) {
-            // Tüm değerler 0 değilse, 0 olanları gizle
-            sortedDataWithLabels = sortedDataWithLabels.filter(item => item.value !== 0);
-        }
+                let sortedDataWithLabels = [...dataWithLabels].sort((a, b) => b.value - a.value);
 
-        const top3DataWithLabels = sortedDataWithLabels.slice(0, 3);
+                if (!allZero) {
+                    sortedDataWithLabels = sortedDataWithLabels.filter(item => item.value !== 0);
+                }
 
-        const expenseList = document.getElementById('expense-list');
-        expenseList.innerHTML = '';
-        top3DataWithLabels.forEach(item => {
-            const listItem = document.createElement('li');
-            listItem.innerHTML = `
-                <div class="expense-management">
-                    <div class="percentage" style="color: ${item.color};">${item.value}%</div>
-                    <div class="title">${item.label}</div>
-                </div>
-                <div class="divider-line"></div>
-            `;
-            expenseList.appendChild(listItem);
-        });
+                const top3DataWithLabels = sortedDataWithLabels.slice(0, 3);
 
-        function formatNumber(value) {
-            if (value >= 1000000) {
-                return Math.floor(value / 1000000) + 'M';
-            } else if (value >= 1000) {
-                return Math.floor(value / 1000) + 'K';
+                const expenseList = document.getElementById('expense-list');
+                expenseList.innerHTML = '';
+                top3DataWithLabels.forEach(item => {
+                    const listItem = document.createElement('li');
+                    listItem.innerHTML = `
+                        <div class="expense-management">
+                            <div class="percentage" style="color: ${item.color};">${item.value}%</div>
+                            <div class="title">${item.label}</div>
+                        </div>
+                        <div class="divider-line"></div>
+                    `;
+                    expenseList.appendChild(listItem);
+                });
+
+                const total = values.reduce((acc, val) => acc + (isNaN(val) ? 0 : val), 0);
+                myDoughnutChart.hoveredValue = "£ " + total.toFixed(0);
+                myDoughnutChart.hoveredColor = initialData.datasets[0].backgroundColor[0];
+
+                myDoughnutChart.update();
             } else {
-                return value.toString();
+                console.error("Invalid data for chart:", values);
             }
         }
 
-        const total = values.reduce((acc, val) => acc + (isNaN(val) ? 0 : val), 0); // Toplamı hesapla, NaN değerlerini 0 olarak al
-        const formattedTotal = new Intl.NumberFormat('en-EN', {
-            minimumFractionDigits: 0,
-            maximumFractionDigits: 0
-        }).format(Math.round(total));
+        // Widget hazır olduğunda ilk güncellemeyi yap
+        JFCustomWidget.subscribe("ready", function (msg) {
+            if (!isUpdated) {
+                JFCustomWidget.getFieldsValueByName(["number1", "number2", "raisingPurchase204"], function (res) {
+                    const values = [
+                        parseFloat(res.data[0]),
+                        parseFloat(res.data[1]),
+                        parseFloat(res.data[2])
+                    ];
 
-        myDoughnutChart.hoveredValue = "£ " + formatNumber(total);
-        myDoughnutChart.hoveredColor = initialData.datasets[0].backgroundColor[0];
+                    console.log("Başlangıç değerleri:", values);
+                    updateChartData(values);  // İlk değerleri güncelle
 
-        myDoughnutChart.update();
-    } else {
-        console.error("Invalid data for chart:", values);
-    }
-}
-
-
-JFCustomWidget.subscribe('populate', function (data) {
-            console.log(data);
-            const newData = data.value.split(',').map(value => parseFloat(value.trim()));
-            console.log("Processed Data:", newData);
-
-            updateChartData(newData);
+                    isUpdated = true;  // Güncelleme yapıldıktan sonra bayrağı güncelle
+                });
+            }
         });
 
-        JFCustomWidget.subscribe("ready", function (msg) {
-            //console.log("Ready:", msg);
-            
-            JFCustomWidget.getFieldsValueByName(["number1", "number2", "raisingPurchase204"], function (res) {
-                console.log(res.data);
+        // Veri geldiğinde güncellemeyi yap
+        JFCustomWidget.subscribe("populate", function (data) {
+            if (!isUpdated) {
+                const newData = data.value.split(',').map(value => parseFloat(value.trim()));
+                updateChartData(newData);  // Yeni verilerle güncelle
 
-                const values = [
-                    parseFloat(res.data[0]),
-                    parseFloat(res.data[1]),
-                    parseFloat(res.data[2])
-                ];
-                console.log("Field values:", values);
-
-                updateChartData(values);
-            });
+                isUpdated = true;  // Güncelleme yapıldıktan sonra bayrağı güncelle
+            }
         });
 
         JFCustomWidget.subscribe("submit", function (msg) {
-    var imageData = myDoughnutChart.toBase64Image();
-
-    // Asenkron işlemin tamamlandığını garantiye almak için
-    return new Promise((resolve, reject) => {
-        try {
+            var imageData = myDoughnutChart.toBase64Image();
             var data2 = {
                 valid: true,
                 value: JFCustomWidgetUtils.buildMetadata(
@@ -275,19 +244,8 @@ JFCustomWidget.subscribe('populate', function (data) {
                     }]
                 )
             };
-
-            // Submit işlemi tamamlandıktan sonra resolve yaparak kanalı kapatıyoruz
             JFCustomWidget.sendSubmit(data2);
-            resolve(true); // Kanaldan başarılı çıkış yapılıyor.
-        } catch (error) {
-            console.error("Error in submit:", error);
-            reject(error); // Hata durumunda kanalı kapatıyoruz.
-        }
-    });
-});
-
-    
-    
+        });
     </script>
 </body>
 

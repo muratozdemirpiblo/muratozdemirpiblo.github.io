@@ -8,6 +8,24 @@
 <body>
 </body>
     <script>
+        const express = require('express');
+const cors = require('cors');
+const app = express();
+
+// Tüm domainlere izin vermek için
+app.use(cors());
+
+// Yalnızca belirli bir domaine izin vermek için
+// app.use(cors({ origin: 'https://example.com' }));
+
+app.get('/', (req, res) => {
+  res.send('CORS başlığı ayarlandı!');
+});
+
+app.listen(3000, () => {
+  console.log('Sunucu 3000 portunda çalışıyor.');
+});
+
         console.log("fff");
         window.onload = function() {
             var id3Div = window.parent.document.getElementById('header_1');

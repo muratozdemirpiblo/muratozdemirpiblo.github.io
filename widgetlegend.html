@@ -141,30 +141,37 @@
 
             return {
                 label: label,
-                value: value.toFixed(1),
+                value: value < 0 ? 0.0 : value.toFixed(1), // Negatif değerleri sıfıra çevir
                 color: initialData.datasets[0].backgroundColor[index]
             };
         });
 
-        console.log(values);
+        console.log(dataWithLabels);
 
         // Pozitif değerleri ve etiketlerini filtreleme
         const filteredDataWithLabels = dataWithLabels.filter(item => parseFloat(item.value) > 0);
 
-        myDoughnutChart.data.labels = filteredDataWithLabels.map(item => item.label);
-        myDoughnutChart.data.datasets[0].data = filteredDataWithLabels.map(item => item.value);
-        myDoughnutChart.data.datasets[0].backgroundColor = filteredDataWithLabels.map(item => item.color);
+        // Chart'a veri ekleme
+        if (filteredDataWithLabels.length > 0) {
+            myDoughnutChart.data.labels = filteredDataWithLabels.map(item => item.label);
+            myDoughnutChart.data.datasets[0].data = filteredDataWithLabels.map(item => item.value);
+            myDoughnutChart.data.datasets[0].backgroundColor = filteredDataWithLabels.map(item => item.color);
 
-        myDoughnutChart.hoveredColor = initialData.datasets[0].backgroundColor[0];
+            myDoughnutChart.hoveredColor = initialData.datasets[0].backgroundColor[0];
 
-        updateLegend(filteredDataWithLabels); // Legend güncelleme
+            updateLegend(filteredDataWithLabels); // Legend güncelleme
 
-        myDoughnutChart.update();
+            myDoughnutChart.update();
+        } else {
+            console.warn("No positive values to display in the chart.");
+        }
+
         return filteredDataWithLabels;
     } else {
         console.error("Invalid data for chart:", values);
     }
 }
+
 
 
     function updateLegend(dataWithLabels) {

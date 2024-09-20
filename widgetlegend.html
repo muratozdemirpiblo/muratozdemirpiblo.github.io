@@ -141,7 +141,7 @@
 
             return {
                 label: label,
-                value: value < 0 ? 0.0 : value.toFixed(1), // Negatif değerleri sıfıra çevir
+                value: value, // Negatif değeri 0 yapmadan önce kontrol ediliyor
                 color: initialData.datasets[0].backgroundColor[index]
             };
         });
@@ -149,12 +149,12 @@
         console.log(dataWithLabels);
 
         // Pozitif değerleri ve etiketlerini filtreleme
-        const filteredDataWithLabels = dataWithLabels.filter(item => parseFloat(item.value) > 0);
+        const filteredDataWithLabels = dataWithLabels.filter(item => parseFloat(item.value) >= 0); // 0 ve üzeri değerleri tut
 
         // Chart'a veri ekleme
         if (filteredDataWithLabels.length > 0) {
             myDoughnutChart.data.labels = filteredDataWithLabels.map(item => item.label);
-            myDoughnutChart.data.datasets[0].data = filteredDataWithLabels.map(item => item.value);
+            myDoughnutChart.data.datasets[0].data = filteredDataWithLabels.map(item => item.value < 0 ? 0 : item.value); // Negatif değerleri sıfır yap
             myDoughnutChart.data.datasets[0].backgroundColor = filteredDataWithLabels.map(item => item.color);
 
             myDoughnutChart.hoveredColor = initialData.datasets[0].backgroundColor[0];

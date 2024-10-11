@@ -215,8 +215,10 @@
     JFCustomWidget.subscribe('populate', function (data) {
         const newData = data.value.split(',').map(value => parseFloat(value.trim()));
         console.log(newData);
+        updateChartData(newData);
         const dataWithLabels = updateChartData(newData);
         updateLegend(dataWithLabels);
+        
     });
 
     JFCustomWidget.subscribe("ready", function (msg) {
@@ -243,7 +245,7 @@
                 parseFloat(res.data[18].value.toFixed(1)),
                 parseFloat(res.data[19].value.toFixed(1))
             ];
-
+            updateChartData(values);
             const dataWithLabels = updateChartData(values);
             updateLegend(dataWithLabels);
         });

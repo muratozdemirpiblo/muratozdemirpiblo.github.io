@@ -141,9 +141,9 @@
                         };
                     });
 
-                    const filteredDataWithLabels = dataWithLabels.filter(item => parseFloat(item.value) > 0);
+                    const filteredDataWithLabels = dataWithLabels.filter(item => parseFloat(item.value) >= 0);
                     
-                    
+                    console(filteredDataWithLabels);
                     if (filteredDataWithLabels.length > 0) {
                         myDoughnutChart.data.labels = filteredDataWithLabels.map(item => item.label);
                         myDoughnutChart.data.datasets[0].data = filteredDataWithLabels.map(item => item.value < 0 ? 0 : item.value);

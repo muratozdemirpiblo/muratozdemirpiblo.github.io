@@ -165,18 +165,18 @@
 
                         updateLegend(filteredDataWithLabels); // Legend güncelleme
 
-                        //myDoughnutChart.update();
+                        myDoughnutChart.update();
                     } else {
-                        //myDoughnutChart.update();
+                        myDoughnutChart.update();
                         console.warn("No positive values to display in the chart.");
                     }
-                    //myDoughnutChart.update();
+                    myDoughnutChart.update();
                     console.log(values);
                     return filteredDataWithLabels;
                 } else {
                     console.error("Invalid data for chart:", values);
                 }
-                myDoughnutChart.update();
+                
             }
 
 

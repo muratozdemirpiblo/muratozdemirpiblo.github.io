@@ -141,7 +141,7 @@
                         let value = isNaN(values[index]) ? 0.0 : values[index];
 
                         // Negatif değerleri 0 olarak ayarlıyoruz, ancak etiketleri tutuyoruz
-                        if (value < 0 && index>10) {
+                        if (value < 0 && index>=10) {
                             value = 0.0;
                         }
 

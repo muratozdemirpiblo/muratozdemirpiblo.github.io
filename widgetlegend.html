@@ -49,14 +49,10 @@
 
         .legend-color-box {
             width: 1em;
-            /* Genişlik ve yükseklik em biriminde tanımlandı, böylece font boyutuna göre ölçeklenir */
             height: 1em;
-            /* Responsive olması için aynı birimde yükseklik ayarlanır */
             margin-right: 10px;
             border-radius: 50%;
-            /* Daire şeklinde yapmak için border-radius %50 olarak ayarlandı */
             flex-shrink: 0;
-            /* Küçülmeye karşı sabit boyut koruması */
         }
 
         canvas {
@@ -72,7 +68,6 @@
             <canvas id="myDoughnutChart"></canvas>
             <div id="legend" class="legend-container" style="display: flex; margin-top: 5em;"></div>
             <!-- Legend eklendi -->
-
         </div>
 
         <script>
@@ -125,24 +120,18 @@
                                 }
                             }
                         }
-
                     },
                 },
                 plugins: []
             });
 
-
             function updateChartData(values) {
-
                 if (Array.isArray(values) && values.length === 20) {
                     const dataWithLabels = initialData.labels.map((label, index) => {
                         let value = isNaN(values[index]) ? 0.0 : values[index];
-
-                        // Son 10 elemandan biri negatifse, ona denk gelen ilk 10 elemanı gizlemek için value'u 0 yapıyoruz
                         if (index >= 10 && value < 0) {
                             value = 0.0;
                         }
-
                         return {
                             label: label,
                             value: value,
@@ -150,29 +139,24 @@
                         };
                     });
 
-                    // Pozitif değerleri ve etiketlerini filtreleme
                     const filteredDataWithLabels = dataWithLabels.filter(item => parseFloat(item.value) >= 0);
 
-                    // Chart'ı temizle ve yeniden yükle
-                    myDoughnutChart.clear(); // Grafiği temizle
+                    myDoughnutChart.clear();
                     if (filteredDataWithLabels.length > 0) {
                         myDoughnutChart.data.labels = filteredDataWithLabels.map(item => item.label);
                         myDoughnutChart.data.datasets[0].data = filteredDataWithLabels.map(item => item.value < 0 ? 0 : item.value);
                         myDoughnutChart.data.datasets[0].backgroundColor = filteredDataWithLabels.map(item => item.color);
 
-                        updateLegend(filteredDataWithLabels); // Legend güncelleme
-                        myDoughnutChart.update(); // Grafiği güncelle
-
+                        updateLegend(filteredDataWithLabels);
+                        myDoughnutChart.update();
                     } else {
                         console.warn("No positive values to display in the chart.");
                     }
-
                     return filteredDataWithLabels;
                 } else {
                     console.error("Invalid data for chart:", values);
                 }
             }
-
 
             function updateLegend(dataWithLabels) {
                 const legendContainer = document.getElementById('legend');
@@ -184,7 +168,7 @@
                 column2.className = 'legend-column';
 
                 dataWithLabels.forEach((item, index) => {
-                    if (item.value > 0) {  // Değer sıfırdan büyükse legend öğesi oluşturulacak
+                    if (item.value > 0) {
                         const legendItem = document.createElement('div');
                         legendItem.className = 'legend-item';
 
@@ -217,7 +201,6 @@
                 updateChartData(newData);
                 const dataWithLabels = updateChartData(newData);
                 updateLegend(dataWithLabels);
-
             });
 
             JFCustomWidget.subscribe("ready", function (msg) {
@@ -264,7 +247,6 @@
                 };
                 JFCustomWidget.sendSubmit(data2);
             });
-
         </script>
 </body>
 

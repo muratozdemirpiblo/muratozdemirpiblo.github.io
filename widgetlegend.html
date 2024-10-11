@@ -133,9 +133,7 @@
                     // Her seferinde orijinal veriyi sıfırlamak için initialData'dan yeni bir dataWithLabels oluşturuyoruz
                     const dataWithLabels = initialData.labels.map((label, index) => {
                         let value = isNaN(values[index]) ? 0.0 : values[index];
-                        if (index >= 10 && value <= 0) {
-                            value = 0.0;
-                        }
+                        
                         return {
                             label: label,
                             value: value,

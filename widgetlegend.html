@@ -128,7 +128,7 @@
             let hasPositiveValues = false;
 
             function updateChartData(values) {
-                console.log(values);
+               
                 if (Array.isArray(values) && values.length === 20) {
                     // Her seferinde orijinal veriyi sıfırlamak için initialData'dan yeni bir dataWithLabels oluşturuyoruz
                     const dataWithLabels = initialData.labels.map((label, index) => {
@@ -210,7 +210,7 @@
             JFCustomWidget.subscribe('populate', function (data) {
                 const newData = data.value.split(',').map(value => parseFloat(value.trim()));
                 updateChartData(newData);
-                const dataWithLabels = updateChartData(newData);
+                //const dataWithLabels = updateChartData(newData);
                 updateLegend(dataWithLabels);
             });
 

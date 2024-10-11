@@ -127,6 +127,7 @@
 
             function updateChartData(values) {
                 if (Array.isArray(values) && values.length === 20) {
+                    myDoughnutChart.update();
                     const dataWithLabels = initialData.labels.map((label, index) => {
                         let value = isNaN(values[index]) ? 0.0 : values[index];
                         if (index >= 10 && value < 0) {
@@ -140,7 +141,7 @@
                     });
 
                     const filteredDataWithLabels = dataWithLabels.filter(item => parseFloat(item.value) >= 0);
-
+                    
                     myDoughnutChart.clear();
                     if (filteredDataWithLabels.length > 0) {
                         myDoughnutChart.data.labels = filteredDataWithLabels.map(item => item.label);

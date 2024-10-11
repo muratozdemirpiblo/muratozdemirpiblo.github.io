@@ -210,7 +210,7 @@
             JFCustomWidget.subscribe('populate', function (data) {
                 const newData = data.value.split(',').map(value => parseFloat(value.trim()));
                 updateChartData(newData);
-                //const dataWithLabels = updateChartData(newData);
+                const dataWithLabels = updateChartData(newData);
                 updateLegend(dataWithLabels);
             });
 

@@ -125,10 +125,11 @@
                 plugins: []
             });
 
+            let hasPositiveValues = false;
+
             function updateChartData(values) {
                 console.log(values);
                 if (Array.isArray(values) && values.length === 20) {
-                    myDoughnutChart.update();
                     const dataWithLabels = initialData.labels.map((label, index) => {
                         let value = isNaN(values[index]) ? 0.0 : values[index];
                         if (index >= 10 && value < 0) {
@@ -142,9 +143,12 @@
                     });
 
                     const filteredDataWithLabels = dataWithLabels.filter(item => parseFloat(item.value) >= 0);
-                    
+
                     console.log(filteredDataWithLabels);
+
+                    // Eğer pozitif değerler varsa güncelleme yapılır
                     if (filteredDataWithLabels.length > 0) {
+                        hasPositiveValues = true; // Pozitif değerler olduğunu işaretleyelim
                         myDoughnutChart.data.labels = filteredDataWithLabels.map(item => item.label);
                         myDoughnutChart.data.datasets[0].data = filteredDataWithLabels.map(item => item.value < 0 ? 0 : item.value);
                         myDoughnutChart.data.datasets[0].backgroundColor = filteredDataWithLabels.map(item => item.color);
@@ -152,14 +156,20 @@
                         updateLegend(filteredDataWithLabels);
                         myDoughnutChart.update();
                     } else {
+                        // Pozitif değer yoksa boş bir grafik göstermek için grafiği sıfırla
                         console.warn("No positive values to display in the chart.");
+                        hasPositiveValues = false;
+                        myDoughnutChart.data.labels = [];
+                        myDoughnutChart.data.datasets[0].data = [];
                         myDoughnutChart.update();
                     }
+
                     return filteredDataWithLabels;
                 } else {
                     console.error("Invalid data for chart:", values);
                 }
             }
+
 
             function updateLegend(dataWithLabels) {
                 const legendContainer = document.getElementById('legend');

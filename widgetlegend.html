@@ -138,14 +138,14 @@
 
                 if (Array.isArray(values) && values.length === 20) {
                     const dataWithLabels = initialData.labels.map((label, index) => {
-                        let value = isNaN(values[index]) ? 0.0 : values[index];
+                        
 
                         // Negatif değerleri 0 olarak ayarlıyoruz, ancak etiketleri tutuyoruz
                         if (values[0] <= 0 || values[10] <= 0) {
                             values[0] = 0.0;
                             values[10] = 0.0;
                         }
-
+                        let value = isNaN(values[index]) ? 0.0 : values[index];
                         return {
                             label: label,
                             value: value,

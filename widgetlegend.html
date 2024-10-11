@@ -18,13 +18,14 @@
         })();
     </script>
     <style>
-         #container {
+        #container {
             gap: 20px;
             height: auto;
             min-height: 100px;
         }
 
-        #chart-container, #data-container {
+        #chart-container,
+        #data-container {
             width: 75%;
             height: auto;
             justify-content: center;
@@ -47,12 +48,16 @@
         }
 
         .legend-color-box {
-    width: 1em;            /* Genişlik ve yükseklik em biriminde tanımlandı, böylece font boyutuna göre ölçeklenir */
-    height: 1em;           /* Responsive olması için aynı birimde yükseklik ayarlanır */
-    margin-right: 10px;
-    border-radius: 50%;    /* Daire şeklinde yapmak için border-radius %50 olarak ayarlandı */
-    flex-shrink: 0;        /* Küçülmeye karşı sabit boyut koruması */
-}
+            width: 1em;
+            /* Genişlik ve yükseklik em biriminde tanımlandı, böylece font boyutuna göre ölçeklenir */
+            height: 1em;
+            /* Responsive olması için aynı birimde yükseklik ayarlanır */
+            margin-right: 10px;
+            border-radius: 50%;
+            /* Daire şeklinde yapmak için border-radius %50 olarak ayarlandı */
+            flex-shrink: 0;
+            /* Küçülmeye karşı sabit boyut koruması */
+        }
 
         canvas {
             max-width: 100%;
@@ -65,206 +70,200 @@
     <div id="container">
         <div id="chart-container">
             <canvas id="myDoughnutChart"></canvas>
-            <div id="legend" class="legend-container" style="display: flex; margin-top: 5em;"></div> <!-- Legend eklendi -->
-        
-    </div>
+            <div id="legend" class="legend-container" style="display: flex; margin-top: 5em;"></div>
+            <!-- Legend eklendi -->
 
-    <script>
-        const ctx = document.getElementById('myDoughnutChart').getContext('2d');
+        </div>
 
-        const initialData = {
-            labels: ["Raising Purchase Orders", "Purchase Order approvals","Coding invoice processes","Management of supplier and purchase invoices","Managing Maverick spend & Spend leakage", 
-                  "Finance query management and dashboard reporting",
-                "Debt collection administration processes", "Customer Invoicing & Finance Workflow Management", "Online expense management", "IT finance systems"],
+        <script>
+            const ctx = document.getElementById('myDoughnutChart').getContext('2d');
 
-            datasets: [
-                {
-                    data: [0, 0], // Başlangıçta 0 yatırım ve 100 kâr olarak ayarlıyoruz
-                    backgroundColor: [
-                        '#F15D23',
-                        '#1078CF',
-                        '#F6911E',
-                        '#616173',
-                        '#F37721',
-                        '#FCB415',
-                        '#2D4FB2',
-                        '#40404C',
-                        '#4C9ADB',
-                        '#A4A4B2'
-                    ],
-                },
-            ],
-        };
+            const initialData = {
+                labels: ["Raising Purchase Orders", "Purchase Order approvals", "Coding invoice processes", "Management of supplier and purchase invoices", "Managing Maverick spend & Spend leakage",
+                    "Finance query management and dashboard reporting",
+                    "Debt collection administration processes", "Customer Invoicing & Finance Workflow Management", "Online expense management", "IT finance systems"],
 
-        const myDoughnutChart = new Chart(ctx, {
-            type: 'doughnut',
-            data: initialData,
-            options: {
-                responsive: true,
-                cutout: '70%',
-                plugins: {
-                    legend: {
-                        display: false
+                datasets: [
+                    {
+                        data: [0, 0], // Başlangıçta 0 yatırım ve 100 kâr olarak ayarlıyoruz
+                        backgroundColor: [
+                            '#F15D23',
+                            '#1078CF',
+                            '#F6911E',
+                            '#616173',
+                            '#F37721',
+                            '#FCB415',
+                            '#2D4FB2',
+                            '#40404C',
+                            '#4C9ADB',
+                            '#A4A4B2'
+                        ],
                     },
-                    tooltip: {
-    callbacks: {
-        label: function (tooltipItem) {
-            let sum = 0;
-            let dataArr = tooltipItem.dataset.data;
-            dataArr.map(data => {
-                sum += Number(data);
-            });
-            let percentage = (tooltipItem.raw / sum * 100).toFixed(1) + '%';
-            return tooltipItem.label + ': ' + percentage;
-        }
-    }
-}
-
-                },
-            },
-            plugins: []
-        });
-
-       
-        function updateChartData(values) {
-    console.log("start");
-    console.log(values);
-
-    if (Array.isArray(values) && values.length === 20) {
-        const dataWithLabels = initialData.labels.map((label, index) => {
-            let value = isNaN(values[index]) ? 0.0 : values[index];
-
-            // Son 10 elemandan biri negatifse, ona denk gelen ilk 10 elemanı gizlemek için value'u 0 yapıyoruz
-            if (index >= 10 && value < 0) {
-                value = 0.0;
-            }
-
-            return {
-                label: label,
-                value: value, // Negatif değeri 0 yapmadan önce kontrol ediliyor
-                color: initialData.datasets[0].backgroundColor[index]
+                ],
             };
-        });
 
-        console.log(dataWithLabels);
+            const myDoughnutChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: initialData,
+                options: {
+                    responsive: true,
+                    cutout: '70%',
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function (tooltipItem) {
+                                    let sum = 0;
+                                    let dataArr = tooltipItem.dataset.data;
+                                    dataArr.map(data => {
+                                        sum += Number(data);
+                                    });
+                                    let percentage = (tooltipItem.raw / sum * 100).toFixed(1) + '%';
+                                    return tooltipItem.label + ': ' + percentage;
+                                }
+                            }
+                        }
 
-        // Pozitif değerleri ve etiketlerini filtreleme
-        const filteredDataWithLabels = dataWithLabels.filter(item => parseFloat(item.value) >= 0); // 0 ve üzeri değerleri tut
-
-        // Chart'a veri ekleme
-        if (filteredDataWithLabels.length > 0) {
-            myDoughnutChart.data.labels = filteredDataWithLabels.map(item => item.label);
-            myDoughnutChart.data.datasets[0].data = filteredDataWithLabels.map(item => item.value < 0 ? 0 : item.value); // Negatif değerleri sıfır yap
-            myDoughnutChart.data.datasets[0].backgroundColor = filteredDataWithLabels.map(item => item.color);
-
-            myDoughnutChart.hoveredColor = initialData.datasets[0].backgroundColor[0];
-
-            updateLegend(filteredDataWithLabels); // Legend güncelleme
-
-            myDoughnutChart.update();
-        } else {
-            console.warn("No positive values to display in the chart.");
-        }
-
-        return filteredDataWithLabels;
-    } else {
-        console.error("Invalid data for chart:", values);
-    }
-}
+                    },
+                },
+                plugins: []
+            });
 
 
+            function updateChartData(values) {
+                console.log("start");
+                console.log(values);
 
-    function updateLegend(dataWithLabels) {
-        const legendContainer = document.getElementById('legend');
-        legendContainer.innerHTML = '';
+                if (Array.isArray(values) && values.length === 20) {
+                    const dataWithLabels = initialData.labels.map((label, index) => {
+                        let value = isNaN(values[index]) ? 0.0 : values[index];
 
-        const column1 = document.createElement('div');
-        column1.className = 'legend-column';
-        const column2 = document.createElement('div');
-        column2.className = 'legend-column';
+                        // Negatif değerleri 0 olarak ayarlıyoruz, ancak etiketleri tutuyoruz
+                        if (value < 0) {
+                            value = 0.0;
+                        }
 
-        dataWithLabels.forEach((item, index) => {
-            if (item.value > 0) {  // Değer sıfırdan büyükse legend öğesi oluşturulacak
-                const legendItem = document.createElement('div');
-                legendItem.className = 'legend-item';
+                        return {
+                            label: label,
+                            value: value,
+                            color: initialData.datasets[0].backgroundColor[index]
+                        };
+                    });
 
-                const colorBox = document.createElement('div');
-                colorBox.className = 'legend-color-box';
-                colorBox.style.backgroundColor = item.color;
+                    console.log(dataWithLabels);
 
-                const textLabel = document.createElement('span');
-                textLabel.textContent = item.label;
-                textLabel.style.fontSize = '0.9em';
-                textLabel.style.fontWeight = 400;
+                    // Chart'a veri ekleme
+                    myDoughnutChart.data.labels = dataWithLabels.map(item => item.label);
+                    myDoughnutChart.data.datasets[0].data = dataWithLabels.map(item => item.value); // Negatif değerleri sıfır yap
+                    myDoughnutChart.data.datasets[0].backgroundColor = dataWithLabels.map(item => item.color);
 
-                legendItem.appendChild(colorBox);
-                legendItem.appendChild(textLabel);
+                    myDoughnutChart.hoveredColor = initialData.datasets[0].backgroundColor[0];
 
-                if (index < 5) {
-                    column1.appendChild(legendItem);
+                    updateLegend(dataWithLabels); // Legend güncelleme
+
+                    myDoughnutChart.update();
+
+                    return dataWithLabels;
                 } else {
-                    column2.appendChild(legendItem);
+                    console.error("Invalid data for chart:", values);
                 }
             }
-        });
 
-        legendContainer.appendChild(column1);
-        legendContainer.appendChild(column2);
-    }
 
-    JFCustomWidget.subscribe('populate', function (data) {
-        const newData = data.value.split(',').map(value => parseFloat(value.trim()));
-        console.log(newData);
-        const dataWithLabels = updateChartData(newData);
-        updateLegend(dataWithLabels);
-    });
 
-    JFCustomWidget.subscribe("ready", function (msg) {
-        JFCustomWidget.getFieldsValueByName(["number1", "number2", "raisingPurchase204", "managingMaverick205", "purchaseOrder206"], function (res) {
-            const values = [
-                parseFloat(res.data[0].value.toFixed(1)),
-                parseFloat(res.data[1].value.toFixed(1)),
-                parseFloat(res.data[2].value.toFixed(1)),
-                parseFloat(res.data[3].value.toFixed(1)),
-                parseFloat(res.data[4].value.toFixed(1)),
-                parseFloat(res.data[5].value.toFixed(1)),
-                parseFloat(res.data[6].value.toFixed(1)),
-                parseFloat(res.data[7].value.toFixed(1)),
-                parseFloat(res.data[8].value.toFixed(1)),
-                parseFloat(res.data[9].value.toFixed(1)),
-                parseFloat(res.data[10].value.toFixed(1)),
-                parseFloat(res.data[11].value.toFixed(1)),
-                parseFloat(res.data[12].value.toFixed(1)),
-                parseFloat(res.data[13].value.toFixed(1)),
-                parseFloat(res.data[14].value.toFixed(1)),
-                parseFloat(res.data[15].value.toFixed(1)),
-                parseFloat(res.data[16].value.toFixed(1)),
-                parseFloat(res.data[17].value.toFixed(1)),
-                parseFloat(res.data[18].value.toFixed(1)),
-                parseFloat(res.data[19].value.toFixed(1))
-            ];
+            function updateLegend(dataWithLabels) {
+                const legendContainer = document.getElementById('legend');
+                legendContainer.innerHTML = '';
 
-            const dataWithLabels = updateChartData(values);
-            updateLegend(dataWithLabels);
-        });
-    });
+                const column1 = document.createElement('div');
+                column1.className = 'legend-column';
+                const column2 = document.createElement('div');
+                column2.className = 'legend-column';
 
-    JFCustomWidget.subscribe("submit", function (msg) {
-        var imageData = myDoughnutChart.toBase64Image();
-        var data2 = {
-            valid: true,
-            value: JFCustomWidgetUtils.buildMetadata(
-                'imagelinks',
-                [{
-                    'name': "ROI Chart",
-                    'base64': imageData
-                }]
-            )
-        };
-        JFCustomWidget.sendSubmit(data2);
-    });
-   
-    </script>
+                dataWithLabels.forEach((item, index) => {
+                    if (item.value > 0) {  // Değer sıfırdan büyükse legend öğesi oluşturulacak
+                        const legendItem = document.createElement('div');
+                        legendItem.className = 'legend-item';
+
+                        const colorBox = document.createElement('div');
+                        colorBox.className = 'legend-color-box';
+                        colorBox.style.backgroundColor = item.color;
+
+                        const textLabel = document.createElement('span');
+                        textLabel.textContent = item.label;
+                        textLabel.style.fontSize = '0.9em';
+                        textLabel.style.fontWeight = 400;
+
+                        legendItem.appendChild(colorBox);
+                        legendItem.appendChild(textLabel);
+
+                        if (index < 5) {
+                            column1.appendChild(legendItem);
+                        } else {
+                            column2.appendChild(legendItem);
+                        }
+                    }
+                });
+
+                legendContainer.appendChild(column1);
+                legendContainer.appendChild(column2);
+            }
+
+            JFCustomWidget.subscribe('populate', function (data) {
+                const newData = data.value.split(',').map(value => parseFloat(value.trim()));
+                console.log(newData);
+                const dataWithLabels = updateChartData(newData);
+                updateLegend(dataWithLabels);
+            });
+
+            JFCustomWidget.subscribe("ready", function (msg) {
+                JFCustomWidget.getFieldsValueByName(["number1", "number2", "raisingPurchase204", "managingMaverick205", "purchaseOrder206"], function (res) {
+                    const values = [
+                        parseFloat(res.data[0].value.toFixed(1)),
+                        parseFloat(res.data[1].value.toFixed(1)),
+                        parseFloat(res.data[2].value.toFixed(1)),
+                        parseFloat(res.data[3].value.toFixed(1)),
+                        parseFloat(res.data[4].value.toFixed(1)),
+                        parseFloat(res.data[5].value.toFixed(1)),
+                        parseFloat(res.data[6].value.toFixed(1)),
+                        parseFloat(res.data[7].value.toFixed(1)),
+                        parseFloat(res.data[8].value.toFixed(1)),
+                        parseFloat(res.data[9].value.toFixed(1)),
+                        parseFloat(res.data[10].value.toFixed(1)),
+                        parseFloat(res.data[11].value.toFixed(1)),
+                        parseFloat(res.data[12].value.toFixed(1)),
+                        parseFloat(res.data[13].value.toFixed(1)),
+                        parseFloat(res.data[14].value.toFixed(1)),
+                        parseFloat(res.data[15].value.toFixed(1)),
+                        parseFloat(res.data[16].value.toFixed(1)),
+                        parseFloat(res.data[17].value.toFixed(1)),
+                        parseFloat(res.data[18].value.toFixed(1)),
+                        parseFloat(res.data[19].value.toFixed(1))
+                    ];
+
+                    const dataWithLabels = updateChartData(values);
+                    updateLegend(dataWithLabels);
+                });
+            });
+
+            JFCustomWidget.subscribe("submit", function (msg) {
+                var imageData = myDoughnutChart.toBase64Image();
+                var data2 = {
+                    valid: true,
+                    value: JFCustomWidgetUtils.buildMetadata(
+                        'imagelinks',
+                        [{
+                            'name': "ROI Chart",
+                            'base64': imageData
+                        }]
+                    )
+                };
+                JFCustomWidget.sendSubmit(data2);
+            });
+
+        </script>
 </body>
 
 </html>

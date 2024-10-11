@@ -132,7 +132,7 @@
                 if (Array.isArray(values) && values.length === 20) {
                     // Her seferinde orijinal veriyi sıfırlamak için initialData'dan yeni bir dataWithLabels oluşturuyoruz
                     const dataWithLabels = initialData.labels.map((label, index) => {
-                        let value = isNaN(values[index]) ? 0.0 : values[index];
+                        //let value = isNaN(values[index]) ? 0.0 : values[index];
                         
                         return {
                             label: label,
@@ -238,7 +238,6 @@
                         parseFloat(res.data[18].value.toFixed(1)),
                         parseFloat(res.data[19].value.toFixed(1))
                     ];
-                    updateChartData(values);
                     const dataWithLabels = updateChartData(values);
                     updateLegend(dataWithLabels);
                 });

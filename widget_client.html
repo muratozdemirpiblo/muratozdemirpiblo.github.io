@@ -189,7 +189,7 @@ canvas {
         const sortedDataWithLabels = [...dataWithLabels].sort((a, b) => b.value - a.value);
 
         const top7DataWithLabels = sortedDataWithLabels.slice(0, 3);
-
+        console.log(values);
         const expenseList = document.getElementById('expense-list');
         expenseList.innerHTML = '';
         top7DataWithLabels.forEach(item => {

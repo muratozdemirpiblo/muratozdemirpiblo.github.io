@@ -168,8 +168,7 @@ canvas {
         });
 
         function updateChartData(values) {
-            
-    if (Array.isArray(values)) {
+    if (Array.isArray(values) && values.length === 6) {
         // Verileri ve etiketleri belirlenen sıraya göre ayarlayın
         const dataWithLabels = initialData.labels.map((label, index) => {
             const value = isNaN(values[index]) ? 0.0 : values[index].toFixed(1); // NaN kontrolü
@@ -185,14 +184,12 @@ canvas {
         myDoughnutChart.data.datasets[0].data = dataWithLabels.map(item => item.value);
         myDoughnutChart.data.datasets[0].backgroundColor = dataWithLabels.map(item => item.color);
 
-        // Yan taraftaki listeyi değerlere göre descending sıralayarak güncelle
-        const sortedDataWithLabels = [...dataWithLabels].sort((a, b) => b.value - a.value);
+        // Sadece ilk 3 elemanı al ve değerlere göre descending sıralayarak güncelle
+        const top3DataWithLabels = dataWithLabels.slice(0, 3).sort((a, b) => b.value - a.value);
 
-        const top7DataWithLabels = sortedDataWithLabels.slice(0, 3);
-        console.log(values);
         const expenseList = document.getElementById('expense-list');
         expenseList.innerHTML = '';
-        top7DataWithLabels.forEach(item => {
+        top3DataWithLabels.forEach(item => {
             if (item.value !== "0.0") { // 0.0 değerlerini filtrele
                 const listItem = document.createElement('li');
                 listItem.innerHTML = `
@@ -205,6 +202,7 @@ canvas {
                 expenseList.appendChild(listItem);
             }
         });
+
         function formatNumber(value) {
             if (value >= 1000000) {
                 return Math.floor(value / 1000000) + 'M';
@@ -221,13 +219,12 @@ canvas {
             maximumFractionDigits: 0
         }).format(Math.round(total));
 
-
         myDoughnutChart.hoveredValue = "£ " + formatNumber(total);
         myDoughnutChart.hoveredColor = initialData.datasets[0].backgroundColor[0];
 
         myDoughnutChart.update();
     } else {
-        console.error("Invalid data for chart:", values);
+        console.error("Invalid data for chart or unexpected length:", values);
     }
 }
 

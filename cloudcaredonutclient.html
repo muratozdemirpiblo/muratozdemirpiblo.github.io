@@ -103,23 +103,25 @@ canvas {
         const ctx = document.getElementById('myDoughnutChart').getContext('2d');
 
         const initialData = {
-                labels: ["Care IT system costs", "Care rostering","Recruitment, applications and training management",
-                    "Business Intelligence Reporting","Quality & compliance reporting","Occupancy Management",
-                    "Point of Care Recording","Incident recording","Complex invoicing and accruals","Payroll management","Multiple systems and data silos"],
+                labels: ["Care rostering","Business Intelligence Reporting","Complex invoicing and accruals","Care IT system costs", "Recruitment, applications and training management",
+                    "Quality & compliance reporting","Occupancy Management",
+                    "Point of Care Recording","Incident recording","Payroll management","Multiple systems and data silos"],
                     
                 datasets: [
                 {
                     data: [0, 0], // Başlangıçta 0 yatırım ve 100 kâr olarak ayarlıyoruz
                     backgroundColor: [                        
-                        '#FCB415',
-                        '#F15D22',
+                    '#F15D22', 
+                    '#F6911E',
+                    '#616173',   
+                    '#FCB415',                        
                         '#40404C',
-                        '#F6911E',
+                        
                         '#2D4FB2',
                         '#A4A4B2',
                         '#F37721',
                         '#1078CF',
-                        '#616173',
+                        
                         '#4C9ADB',
                         '#DC3545'
                     ],
